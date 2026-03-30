@@ -20,9 +20,6 @@
 std::map<size_t, renderer*>  renderer::rendererInstances;
 
 
-
-
-
 void renderer::onWindowResize() {
 	this->resize_all_screen_textures();
 
@@ -48,16 +45,16 @@ void renderer::initFrameBuffers() {
 	//the last value in the  renderTextures  enum.
 	for (int t = 0; t < renderTextures::MAX_SIZE; ++t) {
 		if (t == renderTextures::DEPTH_INDX) {
-			glFramebufferTexture(	GL_FRAMEBUFFER,
-									GL_DEPTH_ATTACHMENT,
-									_renderTextures[t]->get_OGL_id(),
-									0);
+			glFramebufferTexture( GL_FRAMEBUFFER,
+								  GL_DEPTH_ATTACHMENT,
+								  _renderTextures[t]->get_OGL_id(),
+								  0);
 		}
 		else {
-			glFramebufferTexture(	GL_FRAMEBUFFER,
-									GL_COLOR_ATTACHMENT0 + t,
-									_renderTextures[t]->get_OGL_id(),
-									0);
+			glFramebufferTexture( GL_FRAMEBUFFER,
+								  GL_COLOR_ATTACHMENT0 + t,
+								  _renderTextures[t]->get_OGL_id(),
+								  0);
 		}
 		
 	}
@@ -69,7 +66,6 @@ void renderer::initFrameBuffers() {
 
 	//check if all attachments went through successfully:
 	framework::test_if_framebuffer_complete();
-
 
 	glCreateFramebuffers(1, &lightFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, lightFBO);
@@ -92,9 +88,6 @@ void renderer::initFrameBuffers() {
 	framework::test_if_framebuffer_complete();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); //unbind FBO after renderer was created.
 }
-
-
-
 
 
 
@@ -124,7 +117,6 @@ renderer::renderer( const std::string window_name, size_t w_width,
 	//that belong to this renderer, later:
 	this->curr_camera = nullptr;
 
-
 		window *shared_window = shared_renderer == nullptr ? nullptr 
 											             : shared_renderer->m_window;
 		//shared window can point to an instance, or be nullptr at this point.
@@ -138,28 +130,21 @@ renderer::renderer( const std::string window_name, size_t w_width,
 		glfwSetInputMode(m_window->glfw_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		glfwSetInputMode(m_window->glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-
-
 	for (int t = 0; t < renderTextures::MAX_SIZE; ++t) {
 		//create textures and store them in our array:
 		//TODO not all of those textures are needed. Don't create the entire range.
 		//TODO perhaps GL_RGB8? instead of GL_RGBA8.
-		_renderTextures[t] = new texture(t == renderTextures::DEPTH_INDX ? 
-													 GL_DEPTH_COMPONENT32 : GL_RGBA8,
-										 false,
-										 m_window->m_width, m_window->m_height, 0 );
-
+		_renderTextures[t] = new texture(t == renderTextures::DEPTH_INDX ? GL_DEPTH_COMPONENT32 : GL_RGBA8,
+										 false,  m_window->m_width, m_window->m_height, 0 );
 		//set wrap, filtering, 
 		_renderTextures[t]->setWrap(GL_CLAMP);
 		_renderTextures[t]->setFiltering(GL_NEAREST);
 	}
 
-
 	for (int t = 0; t < lightRenderTextures::MAX_SIZE; ++t) {
 		//create light-contribution textures and store them in our array:
 		//todo perhaps GL_RGB8? instead of GL_RGBA8.
-		_light_renderTextures[t] = new texture( GL_RGBA8, false,
-										  m_window->m_width, m_window->m_height, 0 );
+		_light_renderTextures[t] = new texture( GL_RGBA8, false, m_window->m_width, m_window->m_height, 0 );
 
 		//set wrap, filtering, 
 		_light_renderTextures[t]->setWrap(GL_CLAMP);
@@ -206,8 +191,6 @@ renderer::~renderer(){
 	for (texture *t : _light_renderTextures) {
 		delete t;
 	}
-
-	
 	delete screenQuad;
 	glDeleteFramebuffers(1, &gFBO);
 	glDeleteFramebuffers(1, &lightFBO);
@@ -230,22 +213,23 @@ bool renderer::renderAllrenderers(float dt) {
 
 	//envoke render() on each renderer
 	for (auto r = rendererInstances.begin();
-								 r != rendererInstances.end();  /*dont++ here*/){
-			window *renderer_window = r->second->m_window;
+		 r != rendererInstances.end();  /*dont++ here*/){
+		
+		window *renderer_window = r->second->m_window;
 
-			if(renderer_window){
-			//does this renderer have to be deleted?
-			if (renderer_window->closed()) {
-					//delete this renderer and its window
-					int renderer_id = r->second->renderer_id;
-					++r; //before we erase from map, let's increment to next content.
-					renderer::destroyRenderer(renderer_id);
-					continue; //we erased from map, but iterator should be fine.
-			}
+		if(renderer_window){
+		//does this renderer have to be deleted?
+		if (renderer_window->closed()) {
+				//delete this renderer and its window
+				int renderer_id = r->second->renderer_id;
+				++r; //before we erase from map, let's increment to next content.
+				renderer::destroyRenderer(renderer_id);
+				continue; //we erased from map, but iterator should be fine.
+		}
 			
-			r->second->renderRenderer(dt);
-			}
-			++r; //increse iterator manually, as we don't r++. in loop's signature
+		r->second->renderRenderer(dt);
+		}
+		++r; //increse iterator manually, as we don't r++. in loop's signature
 	}//end for each pair in rendererInstances
 	return true;
 }
@@ -285,7 +269,6 @@ void renderer::renderRenderer(float dt) {
 	//us to supply all the lights with their shadowmaps ALREADY updated and rdy 2 use
 	_voxelGICore->voxelizeMeshes( scene::getCurrentScene()->get_scene_GameObjects(), 
 								  scene::getCurrentScene()->get_scene_lights());
-
 
 	for (camera *cam : cameras) {
 		//set the current camera of this renderer to cam:
@@ -355,32 +338,30 @@ vec4 renderer::update_camera_aspect(camera *cam) {
 	//if camera didn't want to impose its viewport dimensions - it is fine with us
 	//using our own:
 	if (!(int)out_viewport.z || !(int)out_viewport.w) {
-			out_viewport = vec4(0, 0, m_window->m_width, m_window->m_height);
+		out_viewport = vec4(0, 0, m_window->m_width, m_window->m_height);
 
-			// height/width of our viewport:
-			float curr_inv_aspect = out_viewport.w / out_viewport.z;
+		// height/width of our viewport:
+		float curr_inv_aspect = out_viewport.w / out_viewport.z;
 
-			if (curr_inv_aspect != cam->last_inv_aspect) {
-				//update the projection matrix, and re-compute the frustum.
-				//Notice, it's important to first set up the last_inv_aspect,
-				//because updating proj matrix relies on it.
-				cam->last_inv_aspect = curr_inv_aspect;
-				cam->updateProjMatrix();
-				//this is usefull when the same camera is used to output into 
-				//different windows, with varying dimensions.
-			}
+		if (curr_inv_aspect != cam->last_inv_aspect) {
+			//update the projection matrix, and re-compute the frustum.
+			//Notice, it's important to first set up the last_inv_aspect,
+			//because updating proj matrix relies on it.
+			cam->last_inv_aspect = curr_inv_aspect;
+			cam->updateProjMatrix();
+			//this is usefull when the same camera is used to output into 
+			//different windows, with varying dimensions.
+		}
 	}//end if width or height are zero pixels
 
 	return out_viewport;
 }
 
 
-
 void renderer::set_curr_matrices(camera *cam) {
 	this->curr_view_mat4 = cam->viewMat;
 	this->curr_proj_mat4 = cam->projMat;
 }
-
 
 
 
@@ -396,7 +377,6 @@ void renderer::opaque_geom_pass( vec4 viewport,
 	 //TODO check what happens if moved above glBindFramebuffer :)
 	glViewport(	(GLint)viewport.x, (GLint)viewport.y,
 				(GLsizei)viewport.z, (GLsizei)viewport.w  );
-
 
 	//render opaque objects FRONT-to-back. (closest are drawn first)
 	//for (int  brut = 0; brut < 200; ++brut)
@@ -478,8 +458,6 @@ void renderer::lighting_voxelGI_pass() {
 		_light->draw(this, lightFBO, this->_renderTextures);
 	}
 
-
-
 	//bind the framebuffer into which we will be outputting all lights contributions:
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(0, 0, 0, 1);
@@ -489,12 +467,7 @@ void renderer::lighting_voxelGI_pass() {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
-	_voxelGICore->renderSecondBounce(this, 
-									 0, 
-									 _renderTextures, 
-									 _light_renderTextures);
-
-
+	_voxelGICore->renderSecondBounce(this, 0, _renderTextures, _light_renderTextures);
 	glUseProgram(0);
 }
 

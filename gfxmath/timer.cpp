@@ -14,9 +14,7 @@ void timer::resetTime(){
 float timer::elapsed() {
 	hr_clock::time_point curr_time = hr_clock::now();
 
-	micro_seconds elapsed = std::chrono::duration_cast<micro_seconds>(curr_time -
-																	   start_time);
-
+	micro_seconds elapsed = std::chrono::duration_cast<micro_seconds>(curr_time - start_time);
 	return  (float)(static_cast<double>(elapsed.count()) *0.001);
 }
 
@@ -25,8 +23,7 @@ float timer::elapsed() {
 float timer::dt() {
 	hr_clock::time_point curr_time = hr_clock::now();
 
-	micro_seconds elapsed = std::chrono::duration_cast<micro_seconds>(curr_time -
-																	   last_time);
+	micro_seconds elapsed = std::chrono::duration_cast<micro_seconds>(curr_time - last_time);
 	last_time = curr_time;
 
 	//return seconds:

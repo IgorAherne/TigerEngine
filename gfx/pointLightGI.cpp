@@ -25,13 +25,11 @@ void setup_illumGI_Shader_samplers(GLuint shaderProgram) {
 		loc = glGetUniformLocation(shaderProgram, "scene_depthTex");
 		glUniform1i(loc, 1);
 
-
-			//Our GI shader pass will NOT calculate any lambert or shadow.
-			//That will be done via parent class "pointLight", during a separate pass
+		//Our GI shader pass will NOT calculate any lambert or shadow.
+		//That will be done via parent class "pointLight", during a separate pass
 		
-			/*loc = glGetUniformLocation(shaderProgram, "cubeShadowmapTex");
-			glUniform1i(loc, 2);*/
-
+		/*loc = glGetUniformLocation(shaderProgram, "cubeShadowmapTex");
+		glUniform1i(loc, 2);*/
 
 		//after default point light's texture units were bound to the variable names,
 		//we can bind our additional variable names to further texture units.
@@ -49,8 +47,6 @@ void setup_illumGI_Shader_samplers(GLuint shaderProgram) {
 
 
 
-
-
 void setup_hq_shading_tex_samplers(GLuint shaderProgram) {
 	glUseProgram(shaderProgram);
 
@@ -61,14 +57,12 @@ void setup_hq_shading_tex_samplers(GLuint shaderProgram) {
 	glUniform1i(loc, 1);
 
 	glUseProgram(0);
-
 }
 
 
 
-pointLightGI::pointLightGI( GLuint shadowmap_resolution, GLuint GI_resolution,
-							vec2 nearFarRange) : pointLight(shadowmap_resolution,
-															nearFarRange){
+pointLightGI::pointLightGI( GLuint shadowmap_resolution, GLuint GI_resolution, vec2 nearFarRange) 
+	: pointLight(shadowmap_resolution, nearFarRange){
 
 	//generate the cube textures, pointLight already created depth cubemap for us.
 	light_PosTex = new texture(GL_RGB16, false, GI_resolution);
@@ -86,8 +80,6 @@ pointLightGI::pointLightGI( GLuint shadowmap_resolution, GLuint GI_resolution,
 	//use of this shader's outputs.
 	illuminationGI_shader = repositories::getShader("GI_illum");
 
-
-
 	//applies the avalable full-res lambertian shading and shadowmap texture
 	//to the visible part of the scene
 	hq_shading_shader = repositories::getShader("hq_shading");
@@ -96,11 +88,8 @@ pointLightGI::pointLightGI( GLuint shadowmap_resolution, GLuint GI_resolution,
 		//binding them to appropriate texture units:
 		setup_illumGI_Shader_samplers(illuminationGI_shader->getShaderProgramID());
 		
-	
 		setup_hq_shading_tex_samplers(hq_shading_shader->getShaderProgramID());
 
-
-	
 	//resolution won't matter, since it will be adjusted during draw(), as soon as
 	//it won't match the current size of the window:
 	low_res_GITex = new texture(GL_RGB16, false, 128, 128);
@@ -339,10 +328,8 @@ vec2 pointLightGI::lowRes_pass_bufferSetup( GLuint outputFBO,
 	glDisable(GL_DEPTH_TEST); //haven't got those attachments anyway.
 
 
-
 	float viewport_width = (int)curr_renderer->get_window()->getWidth();
 	float viewport_height = (int)curr_renderer->get_window()->getHeight();
-
 
 	float viewport_scaled_width = viewport_width / approximation;
 	float viewport_scaled_height = viewport_height / approximation;
@@ -385,13 +372,10 @@ vec2 pointLightGI::lowRes_pass_bufferSetup( GLuint outputFBO,
 void pointLightGI::draw_interpol_GIpass(const renderer *curr_renderer,								
 								texture* _renderTextures[renderTextures::MAX_SIZE]){
 
-
-	
 	interpol_pass_bufferSetup( internalFBO, 
 							   this->final_highResGITex, 
 							   this->high_res_depthStencilTex );
 	
-
 	mat4 lightModelMatrix; //we won't use m_transform, since we use range as scale
 	float light_range = this->old_near_far_range.y;
 	//orientation will always be (0,0,0) for point lights
@@ -409,10 +393,8 @@ void pointLightGI::draw_interpol_GIpass(const renderer *curr_renderer,
 
 	interpol_uniforms_setup(lightMVP, low_res_GITex, curr_renderer, _renderTextures);
 
-
-			 //the above call KEPT the interpolation shader bound,
-			 //so we can continue working with it.
-
+		//the above call KEPT the interpolation shader bound,
+		//so we can continue working with it.
 
 	//draw the light mesh as seen by the viewr,
 	//interpolating the GI colors where possible.
@@ -448,8 +430,6 @@ void pointLightGI::interpol_pass_bufferSetup(GLuint outputFBO,
 
 	glViewport(0, 0, highRes_outputTex->get_xRes(), highRes_outputTex->get_yRes());
 
-
-
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
 	//we are allowed to clear  only the stencil of the output buffer.
@@ -467,7 +447,6 @@ void pointLightGI::interpol_pass_bufferSetup(GLuint outputFBO,
 	//tell what should happen when the stencil + depth fails, when the depth fails,
 	//or when both stencil + depth pass the test.
 	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); //replace with 1s.
-
 
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
@@ -488,7 +467,6 @@ void pointLightGI::interpol_uniforms_setup(mat4 MVP, texture *low_res_texture,
 	glUseProgram(interpolationShader->getShaderProgramID());
 
 
-
 	//upload MVP for this light
 	GLint loc =glGetUniformLocation(interpolationShader->getShaderProgramID(),"MVP");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, (float*)&MVP);
@@ -500,7 +478,6 @@ void pointLightGI::interpol_uniforms_setup(mat4 MVP, texture *low_res_texture,
 	glUniform2fv( loc, 1,
 				  (float*)&vec2(low_res_texture->get_xRes(),
 								low_res_texture->get_yRes())  );
-
 
 
 	//upload the dimensions of a single pixel of the high-resolution output textures:
@@ -516,8 +493,6 @@ void pointLightGI::interpol_uniforms_setup(mat4 MVP, texture *low_res_texture,
 								"nearFarRange");
 	glUniform2fv( loc,   1, 
 				(float*)&curr_renderer->getCurrentCamera()->getNearFar_ClipPlanes());
-
-
 
 
 	//setup texture-samplers in this light's GI INTERPOLATION shader, 
@@ -549,7 +524,6 @@ void pointLightGI::interpol_uniforms_setup(mat4 MVP, texture *low_res_texture,
 	low_res_texture->setFiltering(GL_LINEAR);
 
 
-
 	//we DON'T unbind the interpolation shader, so it can be worked with 
 	//straight after this funciton was called.
 }
@@ -576,12 +550,10 @@ void pointLightGI::draw_delayed_fullGI(const renderer *curr_renderer,
 
 	//viewport is also having the final dimensions, from the interpolation passs.
 
-
 	//setup uniforms for the GI shader. 
 	//We will have to override a few uniforms afterwards as well, so don't worry.
 	pointLightPreDraw_UniformSetup(curr_renderer, _renderTextures,
 									illuminationGI_shader->getShaderProgramID());
-
 
 	//supply additional uniforms to the shader:
 
@@ -592,7 +564,6 @@ void pointLightGI::draw_delayed_fullGI(const renderer *curr_renderer,
 	//cubemap resolution is equal on all dimensions, so we can pick x for example.
 	//Also, any cubemap texture will do, for example the position texture
 	glUniform1f(loc, 1.f / light_PosTex->get_xRes());
-
 
 	//bind additional texture units. Keep in mind that GL_TEXTURE0, GL_TEXTURE1
 	//and GL_TEXTURE2 are occupied by scene depth, scene normals textures that
@@ -619,25 +590,19 @@ void pointLightGI::draw_delayed_fullGI(const renderer *curr_renderer,
 	glViewport(0, 0, curr_renderer->get_window()->getWidth(),
 				curr_renderer->get_window()->getHeight());
 
-
 	//draw the light mesh as seen by the viewr.
 	//Front faces are culled (remained switched on from
 	//low-res GI pass stage)
 	light_mesh->draw_mesh();
 
-
 	glDisable(GL_STENCIL_TEST);
 	glUseProgram(0);
 
-
 	//detach our stencil attachment from internalFBO (we bound it during
 	//draw_low_rez_GIpass()  ), to avoid later confusions:
-	glFramebufferTexture(	GL_FRAMEBUFFER,
-							GL_STENCIL_ATTACHMENT,
-							0,
-							0);
-
-
+	glFramebufferTexture( GL_FRAMEBUFFER,
+						  GL_STENCIL_ATTACHMENT,
+						  0, 0);
 	//unbind internalFBO
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -655,12 +620,9 @@ void pointLightGI::apply_high_quality_shading(const renderer *curr_renderer,
 	//the renderer.
 	glBindFramebuffer(GL_FRAMEBUFFER, outputFBO);
 
-
 	GLuint currProg = hq_shading_shader->getShaderProgramID();
 	glUseProgram(currProg);
 
-
-	
 	//on the 0th sampler we will stick a texture with high-quality lambertian and 
 	//shadowmapped visible portion of the scene:
 	hq_shading_tex->associate_to_TextureUnit(0);
@@ -671,7 +633,6 @@ void pointLightGI::apply_high_quality_shading(const renderer *curr_renderer,
 	//during the constructor. We can safelly bind our hq_shading_tex and the light's
 	//GI output texture to units Zero and One, just like we did above.
 	
-
 		//construct a view-projection from renderer's matrices.
 		mat4 renderer_view_mat = curr_renderer->get_curr_view_mat4();
 		mat4 renderer_proj_mat = curr_renderer->get_curr_proj_mat4();

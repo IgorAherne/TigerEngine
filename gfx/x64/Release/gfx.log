@@ -1,0 +1,834 @@
+﻿  basic_navigator.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'basic_navigator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'basic_navigator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'basic_navigator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'basic_navigator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'basic_navigator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'basic_navigator.cpp')
+  
+  basic_rotator.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'basic_rotator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'basic_rotator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'basic_rotator.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'basic_rotator.cpp')
+  
+  basic_spinner.cpp
+  camera.cpp
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'camera.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'camera.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'camera.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'camera.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'camera.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'camera.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\camera.cpp(82,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\camera.cpp(81,53): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\camera.cpp(85,50): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\camera.cpp(84,65): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Component.cpp
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'Component.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'Component.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'Component.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'Component.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'Component.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'Component.cpp')
+  
+  framework.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'framework.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'framework.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'framework.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'framework.cpp')
+  
+  frustum.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'frustum.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\frustum.cpp(125,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\frustum.cpp(130,13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  gameObject.cpp
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'gameObject.cpp')
+  
+  input.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'input.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'input.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'input.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'input.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'input.cpp')
+  
+  light.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'light.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'light.cpp')
+  
+  material.cpp
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'material.cpp')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'material.cpp')
+      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+      see previous definition of 'APIENTRY'
+  
+  mesh.cpp
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'mesh.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\mesh.cpp(17,35): warning C4305: 'argument': truncation from 'int' to 'bool'
+C:\_myDrive\repos\TigerEngine\gfx\mesh.cpp(160,67): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\mesh.cpp(242,45): warning C4267: 'argument': conversion from 'size_t' to 'GLint', possible loss of data
+  pointLight.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'pointLight.cpp')
+      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+      see previous definition of 'APIENTRY'
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+  (compiling source file 'pointLight.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  (compiling source file 'pointLight.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(55,14): warning C4244: 'argument': conversion from 'GLuint' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(54,14): warning C4244: 'argument': conversion from 'GLuint' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(210,24): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(210,19): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(216,50): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(216,50): warning C4267:         with
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(216,50): warning C4267:         [
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(216,50): warning C4267:             _Ty=unsigned int
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(216,50): warning C4267:         ]
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(220,37): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(264,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(268,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(272,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(432,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(433,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  pointLightGI.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'pointLightGI.cpp')
+      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+      see previous definition of 'APIENTRY'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+  (compiling source file 'pointLightGI.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  (compiling source file 'pointLightGI.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(343,23): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(344,24): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(357,52): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(357,29): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(366,18): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(365,54): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(373,42): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(373,19): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(449,77): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(449,46): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(502,34): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(501,46): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(696,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(697,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  renderer.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'renderer.cpp')
+      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+      see previous definition of 'APIENTRY'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+  (compiling source file 'renderer.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  (compiling source file 'renderer.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\voxelGICore.h(21,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'renderer.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.cpp(240,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\renderer.cpp(358,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\renderer.cpp(358,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  repositories.cpp
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+  (compiling source file 'repositories.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  (compiling source file 'repositories.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4813,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
+  (compiling source file 'repositories.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4813,18):
+      the template instantiation context (the oldest one first) is
+          C:\_myDrive\repos\TigerEngine\gfx\repositories.cpp(125,35):
+          see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+              C:\_myDrive\repos\TigerEngine\gfx\repositories.cpp(125,13):
+              see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'repositories::plugSourceInShader'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(812,17):
+          see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+          with
+          [
+              _Size_type=unsigned __int64,
+              _Iter=wchar_t *,
+              _Sent=wchar_t *,
+              _Size=unsigned __int64
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(968,18):
+          see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+          with
+          [
+              _OutIt=char *,
+              _Size=unsigned __int64,
+              _InIt=wchar_t *,
+              _SizeTy=unsigned __int64
+          ]
+  
+  scene.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'scene.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'scene.cpp')
+  
+  shader.cpp
+  texture.cpp
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  (compiling source file 'texture.cpp')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'texture.cpp')
+      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+      see previous definition of 'APIENTRY'
+  
+C:\_myDrive\repos\TigerEngine\gfx\repositories.h(10,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'texture.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(249,10): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(251,9): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(282,38): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(282,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(305,29): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(305,15): warning C4553: '==': result of expression not used; did you intend '='?
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(307,23): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(326,59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(326,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(327,23): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(371,37): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(371,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(398,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(398,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(399,21): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(443,36): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(443,23): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(459,72): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(462,46): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(468,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(469,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(487,88): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(487,80): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(487,72): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(490,68): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(490,60): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(490,52): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(497,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(498,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(501,51): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  transform.cpp
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'transform.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'transform.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'transform.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'transform.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'transform.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'transform.cpp')
+  
+  Compiling...
+  VoxelGICore.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+  (compiling source file 'VoxelGICore.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+  (compiling source file 'VoxelGICore.cpp')
+      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+      see previous definition of 'APIENTRY'
+  
+C:\_myDrive\repos\TigerEngine\gfx\repositories.h(10,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'VoxelGICore.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+  (compiling source file 'VoxelGICore.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\light.h(8,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'VoxelGICore.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\pointLight.h(6,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+  (compiling source file 'VoxelGICore.cpp')
+      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+      see declaration of 'texture'
+  
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(349,26): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(501,31): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(500,31): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(499,45): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(524,28): warning C4305: '-=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(528,28): warning C4305: '+=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(532,29): warning C4305: '-=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(535,29): warning C4305: '+=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(539,29): warning C4305: '-=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(543,29): warning C4305: '+=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(546,29): warning C4305: '-=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(550,29): warning C4305: '+=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(554,29): warning C4305: '-=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(558,29): warning C4305: '+=': truncation from 'double' to 'float'
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(565,57): warning C4267: 'argument': conversion from 'size_t' to 'GLint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(620,45): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(619,45): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(618,59): warning C4267: 'argument': conversion from 'size_t' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(786,34): warning C4244: 'argument': conversion from 'float' to 'GLuint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(819,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(819,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(826,108): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(826,88): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(826,62): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(826,42): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(852,47): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(852,31): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+  window.cpp
+C:\_myDrive\repos\TigerEngine\gfx\input.h(180,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'window.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(179,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'window.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(194,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'window.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\input.h(202,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'window.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'window.cpp')
+  
+C:\_myDrive\repos\TigerEngine\gfx\window.cpp(18,13): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfx\window.cpp(19,14): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  gfx.vcxproj -> C:\_myDrive\repos\TigerEngine\lib\Release\gfx.lib

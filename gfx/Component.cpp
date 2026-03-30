@@ -3,7 +3,8 @@
 #include "transform.h"
 
 
-component::component(){}
+component::component(){
+}
 
 
 component::~component(){

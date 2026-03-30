@@ -5,7 +5,7 @@
 
 //TODO might be obsolete, but is a way back in case gameObject::getComponent() 
 //results in circular dependincies.
-enum componentType {
+enum class componentType {
 	NONE = 0,
 	TRANSFORM,
 	MESH,
@@ -46,15 +46,15 @@ protected:
 	//gameObject::AttachComponent() anyway.
 	virtual void onGameObject_AddComponent() = 0;
 
-	gameObject *m_gameObject; //game object to which this component is attached.
+	gameObject *m_gameObject = nullptr; //game object to which this component is attached.
 
 	//every component will have a link to the transform of this gameObject.
 	//(even the transform component itself)
-	transform *m_transform;
+	transform *m_transform = nullptr;
 
 
 	 //tells if this component a mesh, camera, transform etc.
 	//allows to perform reinterpret owncasts directly, since we will know the type.
-	componentType m_type;
+	componentType m_type = componentType::NONE;
 };
 

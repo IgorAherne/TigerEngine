@@ -33,85 +33,81 @@ namespace shaderTools {
 		GLint compiled;
 		glGetShaderiv(shader_id, GL_COMPILE_STATUS, &compiled);
 
-		if (!compiled) {
-			//retrieve the compiler messages when compilation fails
-			GLint infoLen = 0;
-			glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &infoLen);
+		if (compiled) { return true; }
+		//retrieve the compiler messages when compilation fails
+		GLint infoLen = 0;
+		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &infoLen);
 
-			if (infoLen > 1) {
-				std::vector<GLchar> errorLog(infoLen);
+		if (infoLen > 1) {
+			std::vector<GLchar> errorLog(infoLen);
 
-				glGetShaderInfoLog(shader_id,  infoLen, &infoLen, &errorLog[0]);
-				std::cout << "\n\nError compiling the shader!\n";
-				for (char c : errorLog) {
-					std::cout << c;
-				}
-				std::cout << "\n\n";
-
-				glDeleteShader(shader_id);
-				shader_id = 0;
-				system("pause");
+			glGetShaderInfoLog(shader_id,  infoLen, &infoLen, &errorLog[0]);
+			std::cout << "\n\nError compiling the shader!\n";
+			for (char c : errorLog) {
+				std::cout << c;
 			}
-			return false;
-		}//end if(!compiled)
-		return true;
+			std::cout << "\n\n";
+
+			glDeleteShader(shader_id);
+			shader_id = 0;
+			system("pause");
+		}
+		return false;
 	}
 
 
 	//doesn't have signature in the header file (hidden)
 	bool programLinkStatus(GLuint &program_id) {
-			GLint linked;
-			glGetProgramiv(program_id, GL_LINK_STATUS, &linked);
+		GLint linked;
+		glGetProgramiv(program_id, GL_LINK_STATUS, &linked);
   
-			if (!linked) {
-				GLint infoLen = 0;
-				glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &infoLen);
-				if (infoLen > 1) {
-					std::vector<GLchar> errorLog(infoLen);
+		if (!linked) {
+			GLint infoLen = 0;
+			glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &infoLen);
+			if (infoLen > 1) {
+				std::vector<GLchar> errorLog(infoLen);
 
-					glGetProgramInfoLog(program_id, infoLen, NULL, &errorLog[0]);
-					std::cout << "\nerror linking the program!\n";
-					for (char c : errorLog) {
-						std::cout << c;
-					}
-					std::cout << "\n\n";
-
-					glDeleteProgram(program_id);
-					program_id = 0;
-					system("pause");
+				glGetProgramInfoLog(program_id, infoLen, NULL, &errorLog[0]);
+				std::cout << "\nerror linking the program!\n";
+				for (char c : errorLog) {
+					std::cout << c;
 				}
-				return false;
+				std::cout << "\n\n";
+
+				glDeleteProgram(program_id);
+				program_id = 0;
+				system("pause");
 			}
+			return false;
+		}
 
-			glGetProgramiv(program_id, GL_VALIDATE_STATUS, &linked);
+		glGetProgramiv(program_id, GL_VALIDATE_STATUS, &linked);
 
-			if (!linked) {
-				GLint infoLen = 0;
-				glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &infoLen);
-				if (infoLen > 1) {
-					std::vector<GLchar> errorLog(infoLen);
+		if (!linked) {
+			GLint infoLen = 0;
+			glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &infoLen);
+			if (infoLen > 1) {
+				std::vector<GLchar> errorLog(infoLen);
 
-					glGetProgramInfoLog(program_id, infoLen, NULL, &errorLog[0]);
-					std::cout << "\nerror validating the program!\n";
-					for (char c : errorLog) {
-						std::cout << c;
-					}
-					std::cout << "\n\n";
-
-					glDeleteProgram(program_id);
-					program_id = 0;
-					system("pause");
+				glGetProgramInfoLog(program_id, infoLen, NULL, &errorLog[0]);
+				std::cout << "\nerror validating the program!\n";
+				for (char c : errorLog) {
+					std::cout << c;
 				}
-				return false;
-			}
+				std::cout << "\n\n";
 
-			return true;
+				glDeleteProgram(program_id);
+				program_id = 0;
+				system("pause");
+			}
+			return false;
+		}
+
+		return true;
 	}
 
 
-	bool CreateShaderObject(GLuint &shader_id, 
-							GLuint shaderType, 
-							const char *shaderSrc) {
+	bool CreateShaderObject(GLuint &shader_id, GLuint shaderType, const char *shaderSrc) {
 
 		shader_id = glCreateShader(shaderType);
 		glShaderSource(shader_id, 1, &shaderSrc, NULL); //load up the shader source
@@ -175,7 +171,6 @@ shader::~shader(){
 		glDetachShader(program_id, gso_id);
 		glDeleteShader(gso_id);
 	}
-
 	glDeleteProgram(program_id);
 }
 
@@ -188,7 +183,6 @@ bool shader::loadSource(std::string source_url, GLuint type) {
 	//store source in a string
 	if (!extractShaderSrc(source_url, src))
 		return false;
-
 
 	switch (type) {
 		case GL_VERTEX_SHADER: {
@@ -205,7 +199,6 @@ bool shader::loadSource(std::string source_url, GLuint type) {
 			return CreateShaderObject(compute_id, type, src.c_str());
 		}break;
 	}
-
 	//didn't return so far, means the type was wrong.
 	return false;
 }
@@ -219,7 +212,6 @@ bool shader::compileShader() {
 	} //that way, we won't have to re-create shader program like this every time.
 	program_id = glCreateProgram();
 
-
 	if (compute_id) {
 		glAttachShader(program_id, compute_id);
 	}
@@ -230,7 +222,6 @@ bool shader::compileShader() {
 		if (gso_id)
 			glAttachShader(program_id, gso_id);
 	}
-
 
 	glLinkProgram(program_id);
 	

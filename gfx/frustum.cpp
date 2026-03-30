@@ -32,8 +32,6 @@ void frustum::frustumCapture(const vec3 &frustumPos, bool ignoreInvis){
 
 
 void frustum::captureChildGameObjects(vec3 frustumPos_world, gameObject *parent) {
-
-
 	auto children = parent->getAllChildren();
 
 	for (gameObject *child : children) {
@@ -58,7 +56,6 @@ void frustum::capture_gameObject(const vec3 &frustumPos_world, gameObject *go) {
 	if (incoming_shape == nullptr)
 		return;
 
-
 	bool contained = true;
 	for (plane p : planes) {
 		//TODO determine which type of bshape the incoming object is.
@@ -69,7 +66,6 @@ void frustum::capture_gameObject(const vec3 &frustumPos_world, gameObject *go) {
 			//break; //break, since it's not inside/intersecting of this frustum
 		}
 	}
-
 	if (contained)
 		store_gameObject(frustumPos_world, go);
 }
@@ -78,7 +74,6 @@ void frustum::capture_gameObject(const vec3 &frustumPos_world, gameObject *go) {
 
 void frustum::store_gameObject(	const vec3 &frustumPos_world, 
 								gameObject *contained_go){
-
 
 	float sqr_dist = (contained_go->getTransform()->getPos_world() -frustumPos_world)
 																	  .sqr_length();

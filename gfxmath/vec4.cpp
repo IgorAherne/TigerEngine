@@ -5,7 +5,6 @@ vec3 vec4::_vec3() const {
 	return vec3(x, y, z);
 }
 
-
 vec4::vec4(vec3 v3, float value/* = 0.0f*/) {
 	x = v3.x;
 	y = v3.y;

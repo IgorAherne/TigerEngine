@@ -1,0 +1,11 @@
+C:\_myDrive\repos\TigerEngine\gfxmath\bshape.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\bshape.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\bshape_intersections.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\bshape_intersections.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\mat3.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\mat3.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\mat4.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\obb_bshape.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\obb_bshape.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\plane.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\plane.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\sphere_bshape.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\sphere_bshape.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\timer.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\timer.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\vec2.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\vec2.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\vec3.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\vec3.obj
+C:\_myDrive\repos\TigerEngine\gfxmath\vec4.cpp;C:\_myDrive\repos\TigerEngine\gfxmath\x64\Release\vec4.obj

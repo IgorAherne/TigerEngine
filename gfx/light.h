@@ -111,30 +111,29 @@ public:
 					   texture *_renderTextures[renderTextures::MAX_SIZE] ) = 0;
 
 
-
 protected:
-	texture *shadowmap_texture; //shadowmap depth texture.
+	texture* shadowmap_texture = nullptr; //shadowmap depth texture.
 
 	 //shader used to generate our shadowmap for this light
-	const shader *shadowmap_shader; 
+	const shader* shadowmap_shader = nullptr; 
 
 	//light's up the visible screen-texture with illumination colors.
-	const shader *illumination_shader;
+	const shader* illumination_shader = nullptr;
 
 
 private:
 	//size of  0 will result in no shadows computed at all,
 	//reducing the number of computations drastically.
-	GLuint shadowmap_size;
+	GLuint shadowmap_size = 0;
 
 	//can be used to attach shadowmaps (for instance if they are GL_TEXTURE_CUBE_MAP)
 	//or any color attachments.  This will render the scene as the light sees it, 
 	//into this FBO's depth. 
 	//when working with framebuffer, make sure to setup correct color 
 	//masks are set, (to avoid corrupting color textures when making depth, etc),
-	GLuint light_frameBuffer;
+	GLuint light_frameBuffer = 0;
 
-	float intensity;  //how bright does the light illuminate its given range
+	float intensity = 0;  //how bright does the light illuminate its given range
 
 	//where does light start to shine and how far it extends
 	vec2 light_near_far_range; 

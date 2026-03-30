@@ -78,8 +78,6 @@ vec2 obb_bshape::project_on_normal_world(vec3 unit_length_dir) const {
 								//maximum = smallest possible value.
 							//We will calculate them from two opposite directions.
 
-	
-
 	vec3 corner = -half_dims_scaled_rotated; //neg x, neg y, neg z
 	corner += center_pos_world; //take position into account 
 	//(half_dims_scaled_rotated is only based on mat3, which took scale and rotation
@@ -88,7 +86,6 @@ vec2 obb_bshape::project_on_normal_world(vec3 unit_length_dir) const {
 	//each of 8 blocks will perform a dot product
 	update_pos_vert_neg_vert(corner, neg_vert, pos_vert, unit_length_dir, min_max);
 	
-
 	corner = vec3(half_dims_scaled_rotated.x, //pos x, neg y, neg z
 					-half_dims_scaled_rotated.y,
 					 -half_dims_scaled_rotated.z);
@@ -135,7 +132,6 @@ vec2 obb_bshape::project_on_normal_world(vec3 unit_length_dir) const {
 	corner += center_pos_world;//take position into account
 	update_pos_vert_neg_vert(corner, neg_vert, pos_vert, unit_length_dir, min_max);
 
-
 	//provide the smallest and the greatest value of vertex when projected on 
 	//a normal,  all in world space.
 	return min_max;
@@ -159,35 +155,33 @@ void obb_bshape::recompute(const std::vector<vec3> &vert_coords_local){
 	//in a model's mesh. We progressivelly shrink the range defined with  3 values:
 	//min_max_X/Y/Z  defined a on the lines above ago.
 	for (int c = 0; c < vert_coords_local.size(); ++c) {
-			vec4 curr_vector = vert_coords_local[c];
+		vec4 curr_vector = vert_coords_local[c];
 				
-			if (min_max_X.x > curr_vector.x)
-				min_max_X.x = curr_vector.x;
+		if (min_max_X.x > curr_vector.x)
+			min_max_X.x = curr_vector.x;
 
-			else if (min_max_X.y < curr_vector.x)
-				min_max_X.y = curr_vector.x;
+		else if (min_max_X.y < curr_vector.x)
+			min_max_X.y = curr_vector.x;
 
 					
-				if (min_max_Y.x > curr_vector.y)
-					min_max_Y.x = curr_vector.y;
+		if (min_max_Y.x > curr_vector.y)
+			min_max_Y.x = curr_vector.y;
 					 
-				else if (min_max_Y.y < curr_vector.y)
-					min_max_Y.y = curr_vector.y;
+		else if (min_max_Y.y < curr_vector.y)
+			min_max_Y.y = curr_vector.y;
 
 					
-			if (min_max_Z.x > curr_vector.z)
-				min_max_Z.x = curr_vector.z;
+		if (min_max_Z.x > curr_vector.z)
+			min_max_Z.x = curr_vector.z;
 
-			else if (min_max_Z.y < curr_vector.z)
-				min_max_Z.y = curr_vector.z;
+		else if (min_max_Z.y < curr_vector.z)
+			min_max_Z.y = curr_vector.z;
 	}
-
 
 	average_mesh_coord_local = vec3(); //reset the average before accomulating it
 	average_mesh_coord_local = vec3(min_max_X.x, min_max_Y.x, min_max_Z.x) *0.5f;
 	average_mesh_coord_local += vec3(min_max_X.y, min_max_Y.y, min_max_Z.y) *0.5f;
 	//we multipliled each one by 0.5 to avoid float overflow if summed THEN divided. 
-
 
 	//now we have average coordinate within a mesh.
 	//let's determine the dimensions of the box.

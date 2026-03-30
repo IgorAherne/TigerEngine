@@ -34,14 +34,11 @@ pointLight::pointLight(GLuint shadowmap_resolution, vec2 nearFarRange)
 	shadowmap_texture = new texture(GL_R32F, false,	shadowmap_resolution);
 	depth_texture = new texture(GL_DEPTH_COMPONENT32, false, shadowmap_resolution);
 
-
-
 	//setup the shader used in shadowmap generation  and in scene-lighting:
 	this->shadowmap_shader = repositories::getShader("shadowmapDefault");
 	this->illumination_shader = repositories::getShader("pointLight_illum");
 	//setup texture-samplers in the shader, binding them to appropriate texture unit:
 	setup_illumShader_samplers();
-
 
 	this->lightCamera = new camera( get_light_nearFar_range(),
 									std::vector<renderer*>() ); //empty renderers.
@@ -50,13 +47,9 @@ pointLight::pointLight(GLuint shadowmap_resolution, vec2 nearFarRange)
 	//It infulences the projectionMatrix generation:
 	//TODO why force the viewport if we will use the one of renderer anyay:
 	//better pass vec4(0,0,  0,0) to it in order NOT to override the renderer viewport
-	this->lightCamera->set_viewportArea( vec4(0,0,
-											  shadowmap_resolution, 
-											  shadowmap_resolution)   );
-											  
+	this->lightCamera->set_viewportArea( vec4(0,0, shadowmap_resolution, shadowmap_resolution) );
 	light_mesh = repositories::getMesh("geosphere");
 }
-
 
 
 
@@ -70,8 +63,6 @@ pointLight::~pointLight(){
 
 
 
-
-
 //TODO check if const can be added to argument.
 //if the user wants everything visible to be rendered in color, drawInColor = true.
 //Otherwise, object won't supply its material color, textures, etc.
@@ -81,7 +72,6 @@ void render_gObject(gameObject *go, GLuint shader_prog_to_use,  bool drawInColor
 
 	if (!_material) //if there is no material - no point in rendering.
 		return;    //return, skipping the drawing of this gameObject.
-
 	
 	//nullptr for current renderer (so it doens't attempt to update matrix uniforms).
 	//True to make it use our currently bound shader:
@@ -106,7 +96,6 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 	lightCamera->detached_cam_Update( this->m_transform->getPos_world(),
 									   pitch_yaw_roll_world);
 
-
 	glUseProgram(shaderID);
 	//upload the viewMatrix for this orientation of the cubemap's side:
 	GLuint loc = glGetUniformLocation(shaderID,   "viewMatrix");
@@ -121,8 +110,6 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 	//Only captures the ones which have a bounding shape.
 	frust->frustumCapture(this->m_transform->getPos_world(), true);
 
-
-
 		 //if color textures are supplied
 		 //then we can set color masks to true.
 		bool color_present= false; 
@@ -130,17 +117,15 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 
 		for (int i = 0; i < out_textures.size(); ++i) {
 
-				//check if the currently inspected cube texture is depth (or shadow):
-				bool is_depth = out_textures[i]->is_depth();
+			//check if the currently inspected cube texture is depth (or shadow):
+			bool is_depth = out_textures[i]->is_depth();
 
-				if (is_depth) {
-					depth_present = true;
-				}
-				else {
-					color_present = true;
-				}
-
-
+			if (is_depth) {
+				depth_present = true;
+			}
+			else {
+				color_present = true;
+			}
 			//attach a side of the corresponding  cube texture to be 
 			//used as framebuffer's output:
 			glFramebufferTexture2D(GL_FRAMEBUFFER,
@@ -149,12 +134,9 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 							 out_textures[i]->get_OGL_id(), 0);
 			//TODO add support for multiple depth attachments, not just one.
 			//framework::fetch_OGL_errors();
-
 		}					 
-		color_present ?   glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)
-					    : glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-		
-	
+		color_present ? glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE) : 
+					    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
 		//if it turns out that there is no depth attachment, - because we want
 		//to have depth test, we need to attach our depth_texture (NOT THE SHADOWMAP)
@@ -164,7 +146,6 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 									 GL_TEXTURE_CUBE_MAP_POSITIVE_X + side,
 									 depth_texture->get_OGL_id(), 0  );
 		}
-
 		//framework::test_if_framebuffer_complete();
 	
 	//clear contents of the newly attached color/depth side of each texture:
@@ -179,7 +160,6 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 	//TODO check that frustum is no longer accepting all objects in by default
 	//(was set for testing purpouses)
 
-
 	//cleanup
 	for (int i = 0; i < out_textures.size(); ++i) {
 		//check if the currently inspected cube texture is depth (or shadow):
@@ -192,13 +172,8 @@ void pointLight::render_Cube_side(	int side, vec3 pitch_yaw_roll_world,
 						    GL_TEXTURE_CUBE_MAP_POSITIVE_X + side,
 							0,  0);
 	}
-
 	glUseProgram(0);
 }
-
-
-
-
 
 
 
@@ -220,7 +195,6 @@ void pointLight::render_into_cube_textures( std::vector<texture*>output_textures
 	  	  glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
 	  }
 
-
 	glEnable(GL_DEPTH_TEST);
 	//shadowmaps should only recieve back faces to minimize z-fighting:
 	if (glCullMode == GL_NONE) {
@@ -230,7 +204,6 @@ void pointLight::render_into_cube_textures( std::vector<texture*>output_textures
 		glEnable(GL_CULL_FACE);
 		glCullFace(glCullMode);
 	}
-	
 
 	//upload projection uniform, since view matrix will be uploaded
 	//with every different cube face:
@@ -247,11 +220,9 @@ void pointLight::render_into_cube_textures( std::vector<texture*>output_textures
 		glUniform3fv(loc, 1, (float*)&lightPos);
 	}
 
-
 	upload_proj_mat(shaderID);
 
 	//framework::fetch_OGL_errors();
-
 
 	//render scene from 6 points of view, using our lightCamera's matrices.
 	//setup the orientation for the first view (pitch / yaw / roll):
@@ -259,18 +230,18 @@ void pointLight::render_into_cube_textures( std::vector<texture*>output_textures
 	//pos_x, neg_g,   pos_y, neg_y,  pos_z, neg_z
 	for (int i = 0; i < 6; ++i) { //TODO rotate the view 6 directions
 		switch (i) {
-				case 0:
-				case 1: {
-					p_y_r_world = vec3(0, 90 + 180 * (i % 2), 180);
-				}break;
-				case 2:
-				case 3: {
-					p_y_r_world = vec3(90 + 180 * (i % 2), 0, 0);
-				}break;
-				case 4:
-				case 5: {
-					p_y_r_world = vec3(180, 0 + 180 * (i % 2), 0);
-				}break;
+			case 0:
+			case 1: {
+				p_y_r_world = vec3(0, 90 + 180 * (i % 2), 180);
+			}break;
+			case 2:
+			case 3: {
+				p_y_r_world = vec3(90 + 180 * (i % 2), 0, 0);
+			}break;
+			case 4:
+			case 5: {
+				p_y_r_world = vec3(180, 0 + 180 * (i % 2), 0);
+			}break;
 		}
 		//render the side of the scene as seen from light, using the
 		//desired shader.
@@ -279,8 +250,6 @@ void pointLight::render_into_cube_textures( std::vector<texture*>output_textures
 	}
 	//now our framebuffer contains 6 rendered depth textures.
 	//The shadowmap is updated.
-
-
 
 	glUseProgram(0); //unbind the shadowmap shader.
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); //unbind our light's framebuffer.
@@ -324,9 +293,6 @@ void pointLight::upload_proj_mat(GLuint shaderID) {
 }
 
 
-
-
-
 void pointLight::updateShadowmaps(float dt) {
 	
 	//we will check what the light sees in all 6 directions arround itself,
@@ -342,14 +308,9 @@ void pointLight::updateShadowmaps(float dt) {
 }
 
 
-
-
-
-
 void pointLight::pointLightPreDraw_UniformSetup(const renderer *curr_renderer,
 							texture *_renderTextures[renderTextures::MAX_SIZE],
 							GLuint shaderToUse/*=0*/) const{
-
 	GLuint currProg;
 	if (!shaderToUse) {
 		//use our illumination shader
@@ -363,7 +324,6 @@ void pointLight::pointLightPreDraw_UniformSetup(const renderer *curr_renderer,
 	//TODO we use program before we start to supply uniform values.
 	//check what happens when we move it after glActiveTexture() calls.
 	//will textures still work? :D  Or do they have to be related to a bound shader?
-
 
 	//you can also get the dimensions of the window from the renderer to know 
 	//the resolution of the texel, etc.
@@ -453,7 +413,6 @@ void  pointLight::draw( const renderer *curr_renderer, GLuint outputFBO,
 	light_mesh->draw_mesh();
 
 	//TODO renderer can bind it once, can't it?  (watch out for GI lights though)
-
 
 	//now we've outputted into the color attachments of outputFBO, supplied
 	//as an argument to this function.

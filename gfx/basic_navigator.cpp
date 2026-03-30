@@ -16,12 +16,10 @@ basic_navigator::basic_navigator(key left_right[2], key down_up[2], key bckwd_fw
 
 
 basic_navigator::~basic_navigator(){
-
 }
 
 
 void basic_navigator::onGameObject_AddComponent() {
-
 }
 
 
@@ -47,7 +45,6 @@ void basic_navigator::componentUpdate(float dt) {
 	if (input::getKey(this->bckwd_fwd[1]))
 		navigation.z = 1.0f;
 
-
 	mat4 curr_transf = m_transform->getTransf();
 
 	//TODO notice, we are copying columns, not rows. Perhaps restructure/add
@@ -62,7 +59,6 @@ void basic_navigator::componentUpdate(float dt) {
 	translation *= dt ; //make time-fluctuation-independent input
 
 	m_transform->addPosition(translation);
-
 
 	//use dt and rotation speed multiplier.
 	vec2 cursor_delta = input::getCursorDelta() * dt * mov_rot_speeds.y;

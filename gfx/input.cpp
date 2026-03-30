@@ -12,27 +12,19 @@ input::double_vec2  input::cursor_old_pos;
 
 
 bool input::getKeyDown(key _key) {
-	if (downed_keys.find(_key) != downed_keys.end())
-		return true;
-
+	if (downed_keys.find(_key) != downed_keys.end()) return true;
 	return false;
 }
 
 
-
-
 bool input::getKey(key _key) {
-	if (pressed_keys.find(_key) != pressed_keys.end())
-		return true;
-
+	if (pressed_keys.find(_key) != pressed_keys.end()) return true;
 	return false;
 }
 
 
 bool input::getKeyUp(key _key) {
-	if (released_keys.find(_key) != released_keys.end())
-		return true;
-
+	if (released_keys.find(_key) != released_keys.end()) return true;
 	return false;
 }
 

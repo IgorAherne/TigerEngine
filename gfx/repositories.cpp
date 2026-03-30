@@ -23,7 +23,6 @@ repositories::repositories(){
 
 repositories::~repositories(){
 	//TODO introduce binary shaders. Make sure they are deleted if nessesary
-
 	for (auto kvp : textures) {
 		delete kvp.second;
 	}
@@ -39,8 +38,6 @@ void repositories::fill_repositories_from_Windows_folders(const std::wstring &fo
 	//They could be a subfolder, or some file, like .jpg .obj .glsl  etc.
 	wstr_vector content_names = get_all_file_names_in_windows_dir(folder);
 
-
-
 	for (const std::wstring &content : content_names) {
 		//will be zero if '.'  IS found in name:
 		if (content.find_last_of(L'.') != content.npos){//means its a file, not a sub-directory
@@ -51,8 +48,7 @@ void repositories::fill_repositories_from_Windows_folders(const std::wstring &fo
 		else { //otherwise, its a sub-directory.
 			//construct a new, deeper path. Remove preious *, and add it on the end
 			//of a new string. Make sure it's accompanied with /
-			fill_repositories_from_Windows_folders(folder.substr(0, folder.find('*'))
-															+ content + L"/*");
+			fill_repositories_from_Windows_folders(folder.substr(0, folder.find('*')) + content + L"/*");
 		}
 	}//end foreach content
 }
@@ -60,8 +56,7 @@ void repositories::fill_repositories_from_Windows_folders(const std::wstring &fo
 
 
 
-wstr_vector  repositories::get_all_file_names_in_windows_dir(
-														const std::wstring &folder){
+wstr_vector  repositories::get_all_file_names_in_windows_dir(const std::wstring &folder){
 
 	//structure containing all info about the obtained file.
 	//For instance, creation time, size of the file, last access time etc.
@@ -74,18 +69,17 @@ wstr_vector  repositories::get_all_file_names_in_windows_dir(
 	std::vector<std::wstring> output;
 	
 	while (handle != INVALID_HANDLE_VALUE)	{
-			if ( std::wstring(search_data.cFileName) != L"." 
-				 && std::wstring(search_data.cFileName) != L"..") {
-						//will output any name of the internal folder OR a file,
-						//with its extension
-						output.push_back(search_data.cFileName);
-			}
+		if ( std::wstring(search_data.cFileName) != L"." 
+				&& std::wstring(search_data.cFileName) != L"..") {
+					//will output any name of the internal folder OR a file,
+					//with its extension
+					output.push_back(search_data.cFileName);
+		}
 
-			//check the next file in the handle
-			if (FindNextFile(handle, &search_data) == FALSE)
-				break; //end while if there are no more files or folders
+		//check the next file in the handle
+		if (FindNextFile(handle, &search_data) == FALSE)
+			break; //end while if there are no more files or folders
 	}
-
 
 	//Close the handle after use or memory/resource leak will occur
 	FindClose(handle);
@@ -94,9 +88,8 @@ wstr_vector  repositories::get_all_file_names_in_windows_dir(
 
 
 
-
-bool repositories::processFile(const std::wstring &file_directory, 
-													const std::wstring &file_name){
+bool repositories::processFile( const std::wstring &file_directory, 
+								const std::wstring &file_name ){
 	
 	if (tryMake_shader(file_directory, file_name))
 		return true;
@@ -112,10 +105,10 @@ bool repositories::processFile(const std::wstring &file_directory,
 
 
 
-void repositories::plugSourceInShader(  std::wstring file_directory, 
-										std::wstring file_name, 
-										GLuint shader_type, 
-										size_t type_pos) {
+void repositories::plugSourceInShader( std::wstring file_directory, 
+									   std::wstring file_name, 
+									   GLuint shader_type, 
+									   size_t type_pos) {
 
 	std::wstring clean_name = file_name.substr(0, type_pos);
 	//create or access an existing shader:
@@ -146,9 +139,8 @@ void repositories::plugSourceInShader(  std::wstring file_directory,
 
 
 
-bool repositories::tryMake_shader(	const std::wstring &file_directory,
-								    const std::wstring &file_name        ) {
-
+bool repositories::tryMake_shader( const std::wstring &file_directory,
+								   const std::wstring &file_name ) {
 	//get the extension of the file:
 	size_t dot_pos = file_name.find('.');
 	std::wstring file_extension = file_name.substr(dot_pos + 1); //don't include dot.
@@ -157,26 +149,26 @@ bool repositories::tryMake_shader(	const std::wstring &file_directory,
 	if (file_extension == L"glsl") {
 		size_t type_pos = 0;
 
-			if ((type_pos = file_name.find(L"Vert"))  !=  file_name.npos) {
-				plugSourceInShader(	file_directory, file_name, 
-									 GL_VERTEX_SHADER, type_pos );
-				return true;
-			}
-			else if ((type_pos = file_name.find(L"Frag")) != file_name.npos) {
-				plugSourceInShader(	file_directory, file_name,
-									 GL_FRAGMENT_SHADER, type_pos );
-				return true;
-			}
-			else if ((type_pos = file_name.find(L"Geom")) != file_name.npos) {
-				plugSourceInShader(	file_directory, file_name, 
-									 GL_GEOMETRY_SHADER, type_pos );
-				return true;
-			}
-			else if ((type_pos = file_name.find(L"Compute")) != file_name.npos) {
-				plugSourceInShader( file_directory, file_name,
-									GL_COMPUTE_SHADER, type_pos );
-				return true;
-			}
+		if ((type_pos = file_name.find(L"Vert"))  !=  file_name.npos) {
+			plugSourceInShader(	file_directory, file_name, 
+									GL_VERTEX_SHADER, type_pos );
+			return true;
+		}
+		else if ((type_pos = file_name.find(L"Frag")) != file_name.npos) {
+			plugSourceInShader(	file_directory, file_name,
+									GL_FRAGMENT_SHADER, type_pos );
+			return true;
+		}
+		else if ((type_pos = file_name.find(L"Geom")) != file_name.npos) {
+			plugSourceInShader(	file_directory, file_name, 
+									GL_GEOMETRY_SHADER, type_pos );
+			return true;
+		}
+		else if ((type_pos = file_name.find(L"Compute")) != file_name.npos) {
+			plugSourceInShader( file_directory, file_name,
+								GL_COMPUTE_SHADER, type_pos );
+			return true;
+		}
 	}//end if extension was L"glsl"
 
 	//TODO add .hlsl, .cg etc
@@ -189,7 +181,6 @@ bool repositories::tryMake_shader(	const std::wstring &file_directory,
 
 bool repositories::tryMake_texture( const std::wstring &file_directory,
 								 const std::wstring &file_name) {
-
 	//get the extension of the file:
 	size_t dot_pos = file_name.find('.');
 	std::wstring file_extension = file_name.substr(dot_pos + 1); //don't include dot.
@@ -214,7 +205,6 @@ bool repositories::tryMake_texture( const std::wstring &file_directory,
 		if (full_url.find(L"four_channel") != std::wstring::npos) {
 			isFourChannel = true;
 		}
-
 		//check if there was a texture already, or the map simply zero-initialized 
 		//the pointer (meaning it points to null):
 		if (!*t) { //if it zero-initialized its value, we have to make the texture
@@ -234,7 +224,6 @@ bool repositories::tryMake_texture( const std::wstring &file_directory,
 
 bool repositories::tryMake_mesh( const std::wstring &file_directory,
 								 const std::wstring &file_name) {
-
 	//get the extension of the file:
 	size_t dot_pos = file_name.find('.');
 	std::wstring file_extension = file_name.substr(dot_pos + 1); //don't include dot.

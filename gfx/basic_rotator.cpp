@@ -14,18 +14,14 @@ basic_rotator::basic_rotator(key left_right[2], key down_up[2], key bckwd_fwd[2]
 
 
 basic_rotator::~basic_rotator() {
-
 }
 
 
 void basic_rotator::onGameObject_AddComponent() {
-
 }
 
 
-
 void basic_rotator::componentUpdate(float dt) {
-
 	float x = 0.f;
 	float y = 0.f;
 	float z = 0.f;
@@ -43,7 +39,6 @@ void basic_rotator::componentUpdate(float dt) {
 		yawPitchRoll.z = -1.0f;
 	if (input::getKey(this->negPosZ[1]))
 		yawPitchRoll.z = 1.0f;
-
 
 	mat4 curr_transf = m_transform->getTransf();
 

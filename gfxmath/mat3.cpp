@@ -16,7 +16,6 @@ mat4 mat3::operator*( mat4 rhs) const {
 	vec3 row_2(	 vec3::Dot(copyRow(2), rhs.copyColumn(0)._vec3() ),
 				 vec3::Dot(copyRow(2), rhs.copyColumn(1)._vec3() ),
 				 vec3::Dot(copyRow(2), rhs.copyColumn(2)._vec3() )  );
-	
 	//avoided forloops for readability
 
 	//spit out matrix 4 (last column and last row are untouched

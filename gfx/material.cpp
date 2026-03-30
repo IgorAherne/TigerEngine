@@ -20,7 +20,6 @@ material::material(const std::string &repository_shaderName){
 
 
 material::~material(){
-
 }
 
 
@@ -35,9 +34,7 @@ bool material::SetShader_from_repository(std::string shader_name){
 
 
 void material::componentUpdate(float dt) {
-
 }
-
 
 
 void material::onGameObject_AddComponent() {
@@ -51,8 +48,6 @@ void material::onGameObject_AddComponent() {
 
 
 
-
-
 bool material::draw(const renderer *currRenderer, GLuint shader_prog_to_use/*=0*/, 
 					bool drawInColor/*=true*/){
 
@@ -60,17 +55,17 @@ bool material::draw(const renderer *currRenderer, GLuint shader_prog_to_use/*=0*
 		return false;
 
 
-			//if we were not using a previously bound shader, 
-			//then we have a right to use our own.
-			GLuint shader_id; 
+	//if we were not using a previously bound shader, 
+	//then we have a right to use our own.
+	GLuint shader_id; 
 
-			if (!shader_prog_to_use) {
-				shader_id = m_shader->getShaderProgramID();
-				glUseProgram(shader_id);
-			}
-			else {
-				shader_id = shader_prog_to_use;
-			}
+	if (!shader_prog_to_use) {
+		shader_id = m_shader->getShaderProgramID();
+		glUseProgram(shader_id);
+	}
+	else {
+		shader_id = shader_prog_to_use;
+	}
 
 
 	//regardless of whether we are using previously bound shader, or our own shader,
@@ -104,7 +99,6 @@ bool material::draw(const renderer *currRenderer, GLuint shader_prog_to_use/*=0*
 		glUniform1f(loc, (float)emissive_brightness);
 	}
 	
-
 
 	m_mesh->draw_mesh();
 
@@ -145,7 +139,6 @@ bool material::draw_custom(	GLuint shader_prog_to_use,
 		shader_id = shader_prog_to_use;
 	}
 
-
 	//if the model matrix was not supplied into the function, we will use the one 
 	//of our transform.
 	GLuint loc = glGetUniformLocation(shader_id, "modelMatrix");
@@ -156,7 +149,6 @@ bool material::draw_custom(	GLuint shader_prog_to_use,
 		glUniformMatrix4fv(loc, 1, GL_FALSE, (float*)modelMatrix);
 	}
 
-
 	//if usePrevShader is true, then whoever called this function must have
 	//setup and uploaded the viewMatrix and projMatrix
 	if (!shader_prog_to_use ) {
@@ -166,7 +158,6 @@ bool material::draw_custom(	GLuint shader_prog_to_use,
 		loc = glGetUniformLocation(shader_id, "projMatrix");
 		glUniformMatrix4fv(loc, 1, GL_FALSE, (float*)&projMatrix);
 	}
-
 
 	if (drawInColor) {
 		//if the user wants this model to be rendered in color, let it supply its
@@ -179,8 +170,6 @@ bool material::draw_custom(	GLuint shader_prog_to_use,
 		loc = glGetUniformLocation(shader_id, "emissive_brightness");
 		glUniform1f(loc, (float)emissive_brightness);
 	}
-
-
 
 	m_mesh->draw_mesh();
 

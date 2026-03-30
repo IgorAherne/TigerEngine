@@ -6,7 +6,6 @@ scene *scene::currentScene = nullptr;
 std::map<size_t, scene*> scene::scenes;
 
 
-
 scene::scene(size_t scene_id, bool make_current/*= false*/){
 	this->scene_id = scene_id;
 
@@ -23,19 +22,17 @@ scene::scene(size_t scene_id, bool make_current/*= false*/){
 }
 
 
-
 scene::~scene(){
 	delete root_gameObj; //will delete every gameObject attached to it.
 }
-
 
 
 //function used internally only in this cpp file.
 //Allows to "attach" pointers to all the children of this gameObject.
 //The function is recursive, so at the end, total_children will 
 //hold all the encountered children.
-void internal_getGameObj_Children(gameObject *parent,
-										   std::vector<gameObject*> &total_children){
+void internal_getGameObj_Children( gameObject *parent,
+								   std::vector<gameObject*> &total_children){
 	const std::set<gameObject*> children = parent->getAllChildren();
 
 	for (gameObject *child : children) {
@@ -44,8 +41,6 @@ void internal_getGameObj_Children(gameObject *parent,
 		internal_getGameObj_Children(child, total_children);
 	}
 }
-
-
 
 
 std::vector<mesh*> scene::get_scene_Meshes() {
@@ -62,8 +57,6 @@ std::vector<mesh*> scene::get_scene_Meshes() {
 }
 
 
-
-
 std::vector<gameObject*> scene::get_scene_GameObjects() {
 	std::vector<gameObject*> allGameObjects;
 
@@ -72,14 +65,10 @@ std::vector<gameObject*> scene::get_scene_GameObjects() {
 }
 
 
-
-
-
 void scene::update(float dt) {
 	root_gameObj->updateComponents(dt); //update components on all gameObjects
 
 	invoke_Updates_On_GameObjs(dt, root_gameObj); //update all gameObjects.
-
 
 	//after all the objects were moved, and their model matrices were recomputed,
 	//we can update all the scene light shadowmaps:
@@ -89,7 +78,6 @@ void scene::update(float dt) {
 }
 
 
-
 void scene::invoke_Updates_On_GameObjs(float dt, gameObject *gameObj) {
 	gameObj->update(dt);
 
@@ -97,7 +85,6 @@ void scene::invoke_Updates_On_GameObjs(float dt, gameObject *gameObj) {
 		invoke_Updates_On_GameObjs(dt, child);
 	}
 }
-
 
 
 void scene::init(bool (*custom_init_function)() ) {

@@ -1,0 +1,49 @@
+﻿MSVCRT.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+C:\_myDrive\repos\TigerEngine\gfxmath\vec3.h(171): warning C4715: 'vec3::operator[]': not all control paths return a value
+C:\_myDrive\repos\TigerEngine\gfxmath\vec4.h(163): warning C4715: 'vec4::operator[]': not all control paths return a value
+  All 2448 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'glew32s.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\_myDrive\repos\TigerEngine\x64\Release\glew32s.pdb'; linking object as if no debug info
+LINK : warning LNK4286: symbol '__glewUniform4fv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewBindFramebuffer' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewUniformMatrix4fv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewDeleteFramebuffers' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewActiveTexture' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewGetUniformLocation' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewDrawBuffers' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewUniform1i' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewFramebufferTexture' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewUniform2fv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewCreateFramebuffers' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewUseProgram' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+LINK : warning LNK4286: symbol '__glewUniform3fv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(pointLight.obj)'
+LINK : warning LNK4286: symbol '__glewFramebufferTexture2D' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(pointLight.obj)'
+LINK : warning LNK4286: symbol '__glewUniform1f' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(pointLight.obj)'
+LINK : warning LNK4286: symbol '__glewDeleteBuffers' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewGenBuffers' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewGenVertexArrays' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewBufferData' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewDeleteVertexArrays' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewBindBuffer' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewVertexAttribPointer' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewBindVertexArray' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewEnableVertexAttribArray' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(mesh.obj)'
+LINK : warning LNK4286: symbol '__glewLinkProgram' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewDeleteShader' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewGetProgramInfoLog' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewDetachShader' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewShaderSource' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewDeleteProgram' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewAttachShader' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewGetProgramiv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewGetShaderInfoLog' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewCreateProgram' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewCreateShader' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewCompileShader' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewGetShaderiv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(shader.obj)'
+LINK : warning LNK4286: symbol '__glewGenFramebuffers' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(light.obj)'
+  MusicPlayer.vcxproj -> C:\_myDrive\repos\TigerEngine\x64\Release\MusicPlayer.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

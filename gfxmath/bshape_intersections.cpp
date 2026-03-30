@@ -57,9 +57,7 @@ bshape_isct_result bshapes_intersect(plane _plane, sphere_bshape sphere) {
 	//some vector from any point on the plane to the center of the sphere
 	vec3 plane_to_sphere = sphere.getCenterPos_world() - _plane.getCenterPos_world();
 
-
 	float dist_sphere_plane = vec3::Dot(plane_to_sphere,_plane.getNormal());
-
 
 	if (dist_sphere_plane > sphere.getRadius()) {
 		return bshape_isct_result::OUTSIDE;

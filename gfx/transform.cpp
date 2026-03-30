@@ -13,7 +13,6 @@ transform::transform() {//true since we ARE the transform component.
 transform::transform(const vec3 &pos, const vec3 &scale, vec3 pitch_yaw_roll,
 					 const transform *parentTransform/*=nullptr*/){
 					// :component(true) since we ARE the transform component.
-
 	this->position = pos;
 	this->scale = scale;
 	this->pitch_yaw_roll = pitch_yaw_roll;
@@ -29,12 +28,10 @@ transform::~transform(){
 
 
 
-
 void transform::componentUpdate(float dt) {
 	//TODO recompute the transf mat4 based on parent's transf and the current 
 	//values of yaw pitch roll
 
-	
 	//Check if parent actually exists.
 	mat4 parent_transf;
 	

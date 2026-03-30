@@ -13,7 +13,6 @@ camera::camera(	const vec2 &near_far_clip,  std::vector<renderer*> renderers,
 	this->proj_type = proj_type; 
 	this->fov_deg = 90; //default field of view.
 	this->ortho_inverseZoom = 10.0f;
-	
 
 	for (renderer *r : renderers) {
 		//record which renderer this camera is working with:
@@ -33,9 +32,8 @@ camera::camera(	const vec2 &near_far_clip,  std::vector<renderer*> renderers,
 
 void camera::onGameObject_AddComponent() {
 	//set up view matrix, based on the tranform.
-	viewMat = mat4::viewMatrix(m_transform->getPos_world(),
-									m_transform->getPitchYawRoll_world());
-
+	viewMat = mat4::viewMatrix( m_transform->getPos_world(),
+								m_transform->getPitchYawRoll_world() );
 	//update projMatrix re-shapes the frustum.
 	updateProjMatrix(); //setup our projection matrix (to be persp or orthographic)
 }
@@ -95,7 +93,6 @@ void camera::updateProjMatrix(bool recompute_frust /* = true*/) {
 											this->near_far_clip,
 											this->fov_deg);
 	}
-
 	//re-build frustum
 	//TODO right now frustum contains 6 planes, which would be destroyed when 
 	//re-shaping it. Howver, there might be additional info. 
@@ -104,8 +101,6 @@ void camera::updateProjMatrix(bool recompute_frust /* = true*/) {
 	if(recompute_frust == true)
 		this->m_frustum = new frustum(projMat*viewMat);
 }
-
-
 
 
 

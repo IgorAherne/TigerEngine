@@ -294,7 +294,6 @@ void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
 			   (GLint)raster_tex2D->get_yRes()  ); //height
 			   
 
-
 	 //NOTICE that we don't clear 3D textures here. For that to happen user has to 
 	 //explicitly call  VoxelGICore::clearGeometryVoxels() 
 
@@ -358,7 +357,6 @@ void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
 							   "light_colors");
 	glUniform3fv(loc, uniformArrayLength, (float*)&light_colors[0]);
 
-
 		//supply a sequence of shadowmaps for our lights:
 		loc = glGetUniformLocation(modern_voxelization_shader->getShaderProgramID(),
 			                       "light_cube_distTex");
@@ -393,7 +391,6 @@ void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
 			glBindImageTexture(3, count_texture->get_OGL_id(), 0, GL_TRUE,
 							   0, GL_READ_WRITE,
 							   count_texture->get_internal_format());
-
 	
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
@@ -420,7 +417,6 @@ void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
 		_material->draw_custom(modern_voxelization_shader->getShaderProgramID());
 	}
 	
-	
 	glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
@@ -435,7 +431,6 @@ void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
 	glFramebufferTexture( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 						  0, 0); //detach rasterization texture attachment
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 
 	//average out the added colors:
 	voxelizeAverage();
@@ -454,8 +449,6 @@ void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
 	basecolor_tex3D->setFiltering(GL_LINEAR_MIPMAP_LINEAR);
 	diffuse_tex3D->setFiltering(GL_LINEAR_MIPMAP_LINEAR);
 	normal_and_brighness_tex3D->setFiltering(GL_NEAREST);
-
-
 
 	//calculate 1st GI bounce and store it in a 3d texture. 
 	//this function will mip map it as well, "filtering" the light "upwards" along
@@ -477,8 +470,6 @@ void voxelGICore::voxelizeAverage() {
 	loc = glGetUniformLocation(modern_voxelizeAverage_shader->getShaderProgramID(),
 								"control2");
 	glUniform1f(loc, shader_control2_value);
-
-
 
 	//bind output 3d textures to texture units 0,1,2:
 	//we will have to average them out by dividing by "count" - the
@@ -558,8 +549,6 @@ void voxelGICore::filterInto_1st_bounce() {
 			shader_control5_value += 0.1;
 		}
 
-
-
 		GLuint loc = glGetUniformLocation(filter_1st_bounce_shader
 												->getShaderProgramID(), "numTexels");
 		glUniform1i(loc, bounce_and_brightness_tex3D->get_xRes());
@@ -572,13 +561,11 @@ void voxelGICore::filterInto_1st_bounce() {
 												->getShaderProgramID(), "control2");
 		glUniform1f(loc, shader_control2_value);
 
-
 		std::cout << "\n shader_control_value " << shader_control_value << " \n";
 		std::cout << " shader_control_2_value " << shader_control2_value << " \n";
 		std::cout << " shader_control_3_value " << shader_control3_value << " \n";
 		std::cout << " shader_control_4_value " << shader_control4_value << " \n";
 		std::cout << " shader_control_5_value " << shader_control5_value << " \n";
-
 		
 		//make sure DIFFUSE and basecolor filtering is "linear" and
 		//"linear mipmap linear" respectively.
@@ -620,7 +607,6 @@ void voxelGICore::filterInto_1st_bounce() {
 							bounce_and_brightness_tex3D->get_xRes() //there  are voxels 
 						 );								//in our 3d volume
 
-		
 		glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
 
 		//that's a second (and last) texture that has to be mip-mapped:
@@ -650,7 +636,6 @@ void voxelGICore::clearVoxels() {
 						  bounce_and_brightness_tex3D->get_OGL_id(), 0);
 	//TODO we only cleared level 0. Need to clear all mip levels though
 
-
 	//TODO attachments might not be required just for clearing the color.
 		GLuint attachments[4] = { GL_COLOR_ATTACHMENT0,
 								  GL_COLOR_ATTACHMENT1,
@@ -660,7 +645,6 @@ void voxelGICore::clearVoxels() {
 
 		glClearColor(0, 0, 0, 0);
 		glClear(GL_COLOR_BUFFER_BIT);
-
 
 	glFramebufferTexture( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 						  0, 0); //detach basecolor attachment
@@ -682,7 +666,6 @@ void voxelGICore::clearVoxels() {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
 
 
 
@@ -767,11 +750,9 @@ void voxelGICore::displayVoxels(const camera *cam, vec4 viewport) {
 
 
 void voxelGICore::renderSecondBounce( const renderer *curr_renderer, 
-						 GLuint outputFBO,
-					  texture *_renderTextures[renderTextures::MAX_SIZE],
-					  texture *_light_renderTextures[lightRenderTextures::MAX_SIZE]){
-
-
+									  GLuint outputFBO,
+									  texture *_renderTextures[renderTextures::MAX_SIZE],
+									  texture *_light_renderTextures[lightRenderTextures::MAX_SIZE]){
 
 	texture *highResTextures[2] = { final_highResGITex,
 									high_res_depthStencilTex };
@@ -804,7 +785,6 @@ void voxelGICore::renderSecondBounce( const renderer *curr_renderer,
 	//upload values to the interpolation shader:
 	pointLightGI::interpol_uniforms_setup(mat4::identity(), low_res_GITex,
 										  curr_renderer, _renderTextures);
-	
 	
 	//perform interpolation:
 	screen_quad->draw_mesh();
@@ -839,10 +819,10 @@ void voxelGICore::renderSecondBounce( const renderer *curr_renderer,
 
 
 void voxelGICore::renderScreenGI( vec2 viewportSize,
-							GLuint outputFBO,
-							const renderer *curr_renderer,
-							texture *_renderTextures[renderTextures::MAX_SIZE],
-					  texture *_light_renderTextures[lightRenderTextures::MAX_SIZE]){
+								  GLuint outputFBO,
+								  const renderer *curr_renderer,
+								  texture *_renderTextures[renderTextures::MAX_SIZE],
+								  texture *_light_renderTextures[lightRenderTextures::MAX_SIZE]){
 
 	GLuint currProg = renderSecondBounce_shader->getShaderProgramID();
 	glUseProgram(currProg);
@@ -921,7 +901,6 @@ void voxelGICore::renderScreenGI( vec2 viewportSize,
 	loc = glGetUniformLocation(currProg, "pixelSize");
 	vec2 pixel_size = vec2(1/viewportSize.x, 1/viewportSize.y);
 	glUniform2fv(loc, 1, (float*)&pixel_size);
-
 
 
 	loc = glGetUniformLocation(currProg, "control");

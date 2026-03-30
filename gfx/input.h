@@ -135,18 +135,15 @@ KEY_LAST
 
 
 class input sealed{
-	
-
-
 	//friend function from framework namespace.
 	friend void framework::primary_KeyInputCallBack(GLFWwindow*, int, int, int, int);
 	friend class renderer;
 
 public:
-	inline static std::set<size_t> getAllKeysDown() { 
+	inline static std::set<size_t> getAllKeysDown(){ 
 		return downed_keys; //comletely value-type, don't worry, we don't return ref.
 	};
-	static std::set<size_t> getAllKeysPressed() {
+	static std::set<size_t> getAllKeysPressed(){
 		return pressed_keys; //comletely value-type 
 	}
 	static std::set<size_t> getAllKeysUp(){
@@ -165,21 +162,19 @@ public:
 
 
 	//separate from y, to avoid vector's low-precision floats.
-	static double getCursorPos_x() {
+	static double getCursorPos_x(){
 		return cursor_pos.x;
 	}
 	//separate from x, to avoid vector's low-precision floats.
-	static  double getCursorPos_y() {
+	static double getCursorPos_y(){
 		return cursor_pos.y;
 	}
 
-	
 	//returns NON-unit length change in position from previous frame
-	static vec2 getCursorDelta() {
+	static vec2 getCursorDelta(){
 		return vec2( cursor_pos.x - cursor_old_pos.x, 
 					 cursor_pos.y - cursor_old_pos.y );
 	}
-
 
 	//has to be called at the end of the main loop.
 	//clears the key inputs (released_keys, pressed_keys and downed_keys sets).
@@ -188,10 +183,10 @@ public:
 	//
 	//TODO: press forward, resize window, release forward, release resize and 
 	//the camera will move forward forever. Solve this issue.
-	inline static void flush_keys() {
+	inline static void flush_keys(){
 		//see if some keys are downed AND are not in released yet.
 		//place such keys into PRESSED keys.
-		for (int key : downed_keys) {
+		for (int key : downed_keys){
 			if (released_keys.find(key) == released_keys.end()) {
 				pressed_keys.insert(key);
 			}
@@ -199,7 +194,7 @@ public:
 		downed_keys.clear(); //clear the downed keys.
 		
 		//erase any key from the pressed keys  which is mentioned in released.
-		for (int key : released_keys) {
+		for (int key : released_keys){
 			pressed_keys.erase(key);
 		}
 		released_keys.clear(); //clear the released keys.
@@ -214,27 +209,19 @@ public:
 
 private:
 	//don't ever make the constructor or destructor public!
-	input() {
-		
-		
-	};
-
+	input() {};
 	~input() {};
-
 
 	//envoked by GLFW. 
 	//was registered with GLFW as the key callback (every window selects this same
 	//function as a key callback, upon that window's creation)
 	static void primary_KeyInputCallback(GLFWwindow *_window, int key, int scancode,
-															  int action, int mods);
-
+										 int action, int mods);
 
 	//enboked by GLFW
 	//was registered with GLFW as the cursor position callback (every window selects
 	//this same function as a cursor position callback, upon that window's creation)
 	static void primary_cursorInputCallback(GLFWwindow *, double x, double y);
-
-
 
 	struct double_vec2 {
 		double_vec2(double _x = 0.0, double _y = 0.0) : x(_x), y(_y) {}
@@ -255,8 +242,5 @@ private:
 	//any key that GLFW maked as being "unpressed" or "released", has to go in this
 	//set. 
 	static std::set<size_t> released_keys;
-	
-	
-
 };
 

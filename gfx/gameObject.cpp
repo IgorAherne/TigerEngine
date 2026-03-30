@@ -33,16 +33,15 @@ gameObject::gameObject(	std::string name/*=""*/, bool invisible/*=false*/,
 		this->parentGameObject->attachChild(this);
 	}
 	else { //otherwise, no parent gameObject was supplied!
-		   //grab a pointer to the current scene's root.
-			gameObject *root = scene::getCurrentScene()->getRootGameObject();
+		//grab a pointer to the current scene's root.
+		gameObject *root = scene::getCurrentScene()->getRootGameObject();
 
-			t = new transform(vec3(0, 0, 0), vec3(1, 1, 1), vec3(0, 0, 0), 
-											   root? root->getTransform() : nullptr);
-		
-			 //if root exists, we should set it as our parent.
-			 //root might be a nullptr if we are actually creating one right now.
-			if (root != nullptr)
-				root->attachChild(this);
+		t = new transform(vec3(0, 0, 0), vec3(1, 1, 1), vec3(0, 0, 0), 
+											root? root->getTransform() : nullptr);
+			//if root exists, we should set it as our parent.
+			//root might be a nullptr if we are actually creating one right now.
+		if (root != nullptr)
+			root->attachChild(this);
 	}//end if no parent was supplied
 
 
@@ -53,15 +52,12 @@ gameObject::gameObject(	std::string name/*=""*/, bool invisible/*=false*/,
 								//component that we are its m_gameObject, and sets
 								//additional variables.
 
-
-
 	//set-up the quick-link to the material, simmilar to how the transform
 	//was set-up.
 	if (!invisible) {
 		m_material = new material("standard"); //request standard shader
 		this->attachComponent<material>(m_material);
 	}
-
 }
 
 
@@ -99,7 +95,6 @@ void gameObject::updateComponents(float dt) {
 	if (m_transform) {
 		m_transform->componentUpdate(dt);
 	}
-
 
 	//envoke update components on all the child game objects
 	for (gameObject *child_go : children) {

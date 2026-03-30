@@ -334,7 +334,7 @@ private:
 	std::vector<vec2> m_texCoords;
 	std::vector<vec3> m_normals;
 	std::vector<vec3> m_positions;
-	bool mesh_positions_changed;
+	bool mesh_positions_changed = false;
 
 	GLuint mesh_traversal_type; //can be GL_TRAINGLES, GL_TRIANGLE_STRIP, etc
 

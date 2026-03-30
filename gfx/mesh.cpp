@@ -46,7 +46,6 @@ mesh *mesh::createQuad() {
 	texCoords.push_back(vec2(0, 1));
 	quadMesh->setTexCoords(texCoords);
 
-
 	std::vector<vec3> normals;
 	normals.push_back(vec3(0, 0, 1));
 	normals.push_back(vec3(0, 0, 1));
@@ -199,17 +198,17 @@ void mesh::BufferData(bufferArgs &args){
 		//generate all vertex buffer objects (since they all must have same size)
 		//TODO iterate over each VBO and EXTEND the size. DON'T delete every 
 		//VBO, re-creating it, since it will wipe all the data.
-			if (m_vbo_ids[args.attribute_type]) { 
-				glDeleteBuffers(1, &m_vbo_ids[args.attribute_type]);
-			}
-			glGenBuffers(1, &m_vbo_ids[args.attribute_type]);
-		
+		if (m_vbo_ids[args.attribute_type]) { 
+			glDeleteBuffers(1, &m_vbo_ids[args.attribute_type]);
+		}
+		glGenBuffers(1, &m_vbo_ids[args.attribute_type]);
 	}//end if resize existing vbos == true
+
 	else { //even if no resize was requested, 
-			//check if the particular buffer needs to be generated:
-			if (m_vbo_ids[args.attribute_type] == 0) {
-				glGenBuffers(1, &m_vbo_ids[args.attribute_type]);
-			}
+		//check if the particular buffer needs to be generated:
+		if (m_vbo_ids[args.attribute_type] == 0) {
+			glGenBuffers(1, &m_vbo_ids[args.attribute_type]);
+		}
 	}
 
 
@@ -220,22 +219,22 @@ void mesh::BufferData(bufferArgs &args){
 	size_t numItemsPerAttrib = 0;
 	
 	switch (args.attribSubType) {
-			case attributeSubType::FLOAT: {
-				numItemsPerAttrib = args.byteSizePerEntry / sizeof(float);
-			}break;
-			case attributeSubType::HALF_FLOAT: {
-				numItemsPerAttrib = args.byteSizePerEntry / sizeof(float);
-				numItemsPerAttrib *= 2;
-			}break;
-			case attributeSubType::INT: {
-				numItemsPerAttrib = args.byteSizePerEntry / sizeof(int);
-			}break;
-			case attributeSubType::UNSIGNED_BYTE: {
-				numItemsPerAttrib = args.byteSizePerEntry / sizeof(unsigned char);
-			}break;
-			case attributeSubType::BOOL: {
-				numItemsPerAttrib = args.byteSizePerEntry / sizeof(bool);
-			}break;
+		case attributeSubType::FLOAT: {
+			numItemsPerAttrib = args.byteSizePerEntry / sizeof(float);
+		}break;
+		case attributeSubType::HALF_FLOAT: {
+			numItemsPerAttrib = args.byteSizePerEntry / sizeof(float);
+			numItemsPerAttrib *= 2;
+		}break;
+		case attributeSubType::INT: {
+			numItemsPerAttrib = args.byteSizePerEntry / sizeof(int);
+		}break;
+		case attributeSubType::UNSIGNED_BYTE: {
+			numItemsPerAttrib = args.byteSizePerEntry / sizeof(unsigned char);
+		}break;
+		case attributeSubType::BOOL: {
+			numItemsPerAttrib = args.byteSizePerEntry / sizeof(bool);
+		}break;
 	}
 	//notice, we are attaching the vbo to the cells of vao.
 	//we are attaching them to the cells which match entries in attribute
@@ -326,13 +325,13 @@ void ProcessLine(std::string line, objFile_mesh_data &objdata) {
 	if (token != "") {
 
 		if (token == "#") { //comment line
-				//TODO if mesh has name:
-				//line_ss >> token;
-				//if (token == "object") {
-				//	line_ss >> token;
-				//	obj_mesh->name = token;
-				//}
-				return; //disregard this line and let's process the next one
+			//TODO if mesh has name:
+			//line_ss >> token;
+			//if (token == "object") {
+			//	line_ss >> token;
+			//	obj_mesh->name = token;
+			//}
+			return; //disregard this line and let's process the next one
 		}
 		//otherwise, pass whatever remains of the string stream 
 		//(we removed the token already) as an argument
@@ -358,7 +357,6 @@ void ProcessLine(std::string line, objFile_mesh_data &objdata) {
 
 
 
-
 //works on the current line if it's the one for a vertex.
 //constructs a Vector3 for position from it. 
 vec3 ExtractVertex(std::stringstream &vert_ss) {
@@ -371,21 +369,21 @@ vec3 ExtractVertex(std::stringstream &vert_ss) {
 	std::string process_string;
 
 	while (vert_ss >> process_string) { //TODO get rid of process_string
-			if (!x_done) { //why do u reconstruct a stringstream below?
-				if (std::stringstream(process_string) >> vert.x) {
-					x_done = true;
-				}
+		if (!x_done) { //why do u reconstruct a stringstream below?
+			if (std::stringstream(process_string) >> vert.x) {
+				x_done = true;
 			}
-			else if (!y_done) {
-				if (std::stringstream(process_string) >> vert.y) {
-					y_done = true;
-				}
+		}
+		else if (!y_done) {
+			if (std::stringstream(process_string) >> vert.y) {
+				y_done = true;
 			}
-			else if (!z_done) {
-				if (std::stringstream(process_string) >> vert.z) {
-					z_done = true;
-				}
+		}
+		else if (!z_done) {
+			if (std::stringstream(process_string) >> vert.z) {
+				z_done = true;
 			}
+		}
 	}//end while
 	return vert;
 }
@@ -404,25 +402,24 @@ vec3 ExtractNormal(std::stringstream &norm_ss) {
 	std::string process_string;
 
 	while (norm_ss >> process_string) {
-			if (!x_done) {
-				if (std::stringstream(process_string) >> norm.x) {
-					x_done = true;
-				}
+		if (!x_done) {
+			if (std::stringstream(process_string) >> norm.x) {
+				x_done = true;
 			}
-			else if (!y_done) {
-				if (std::stringstream(process_string) >> norm.y) {
-					y_done = true;
-				}
+		}
+		else if (!y_done) {
+			if (std::stringstream(process_string) >> norm.y) {
+				y_done = true;
 			}
-			else if (!z_done) {
-				if (std::stringstream(process_string) >> norm.z) {
-					z_done = true;
-				}
+		}
+		else if (!z_done) {
+			if (std::stringstream(process_string) >> norm.z) {
+				z_done = true;
 			}
+		}
 	}//end while
 	return norm;
 }
-
 
 
 
@@ -436,20 +433,19 @@ vec2 ExtractTexCoord(std::stringstream &tex_ss) {
 	std::string process_string;
 
 	while (tex_ss >> process_string) {
-			if (!u_done) {
-				if (std::stringstream(process_string) >> tex_coord.x) {
-					u_done = true;
-				}
+		if (!u_done) {
+			if (std::stringstream(process_string) >> tex_coord.x) {
+				u_done = true;
 			}
-			else if (!v_done) {
-				if (std::stringstream(process_string) >> tex_coord.y) {
-					v_done = true;
-				}
+		}
+		else if (!v_done) {
+			if (std::stringstream(process_string) >> tex_coord.y) {
+				v_done = true;
 			}
+		}
 	}
 	return tex_coord;
 }
-
 
 
 
@@ -469,7 +465,6 @@ void ExtractFace(std::stringstream &face_ss, objFile_mesh_data &objdata) {
 		unsigned int tex_ix;
 		unsigned int norm_ix;
 	};
-
 
 	element_indices idxs_1;
 	element_indices idxs_2;

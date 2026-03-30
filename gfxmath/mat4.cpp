@@ -15,14 +15,12 @@ mat4 mat4::euler_rot(float x_deg, float y_deg, float z_deg) {
 									 vec4(0, c,-s,  0),
 									 vec4(0, s, c,  0), 
 									 vec4(0, 0, 0,  1)   );
-
 	c = std::cos(y_deg); //cos
 	s = std::sin(y_deg);  //sin
 	mat4 yRot = mat4::mat_via_rows(	 vec4( c,  0, s, 0),
 									 vec4( 0,  1, 0, 0),
 									 vec4(-s,  0, c, 0),
 									 vec4( 0,  0, 0, 1)  );
-
 	c = std::cos(z_deg); //cos
 	s = std::sin(z_deg);  //sin
 	mat4 zRot = mat4::mat_via_rows(	 vec4(c, -s, 0, 0),
@@ -83,7 +81,6 @@ mat4 mat4::persp_mat(float inverse_aspect, vec2 n_f_distances, float fov_deg) {
 	
 	mat4 proj;
 
-
 	proj.columns[0].x = one_over_tan*inverse_aspect;
 
 	//TODO:
@@ -131,7 +128,6 @@ mat4 mat4::ortho_mat(vec2 left_right, vec2 bot_top, vec2 near_far){
 	ortho.columns[1].y = 2 / (bot_top.y - bot_top.x); //top - bot
 
 	ortho.columns[2].z = 2 / (near_far.y - near_far.x); //far - near
-
 
 	ortho.columns[3].x = -(left_right.y+left_right.x) / (left_right.y-left_right.x);
 	ortho.columns[3].y = -(bot_top.y+bot_top.x) / (bot_top.y-bot_top.x);
