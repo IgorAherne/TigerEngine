@@ -264,7 +264,16 @@ void main() {
 		//take into account illumination that might arrive from somewhere else (both bounces):
 		//If emission is close to 0 disregard any "raw" basecolor, and consider 
 		//own diffuse which is basecolor * illumination:
-		fragColor.rgb =   (1-emission)*ownDiffuse.rgb + emission*baseColor.rgb
+
+		//For emissive surfaces, fetch their HDR brightness directly from the voxel diffuse texture.
+		//This way, surfaces with emissive_brightness > 1 visually glow on screen:
+		vec3 emissiveColor = baseColor.rgb;
+		if(emission > 0.0){
+			vec3 selfVoxelUV = (screenFrag_worldPos.xyz) / textureSize + 0.5;
+			emissiveColor = textureLod(diffuseTex, selfVoxelUV, 0).rgb;
+		}
+
+		fragColor.rgb =   (1-emission)*ownDiffuse.rgb + emission*emissiveColor
 		 				+ firstSecond_bounce_light.rgb;//also add indirect illumination (first and second bounce)
 		
 		fragColor.a = 1;

@@ -90,6 +90,7 @@ public:
 	float shader_control3_value; //TODO for debugging
 	float shader_control4_value; //TODO for debugging
 	float shader_control5_value;
+	float gi_resolution_divisor; //how much to downsample the screen-space GI pass. Higher = faster but blurrier.
 
 protected:
 	void modernVoxelize( const std::vector<gameObject*>& gobjects,

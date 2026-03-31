@@ -217,12 +217,12 @@ voxelGICore::voxelGICore(size_t GI_textures_res, float world_size){
 	glUniform1i(loc, 8);
 
 
-
 	shader_control_value = 1;
 	shader_control2_value = 0;
 	shader_control3_value = 0;
 	shader_control4_value = 0;
 	shader_control5_value = 2;
+	gi_resolution_divisor = 2; //render GI at 1/2 resolution, then upscale
 
 	glUseProgram(0);
 }
@@ -519,10 +519,12 @@ void voxelGICore::filterInto_1st_bounce() {
 			//shader_control_value = std::fminf(shader_control_value, 1);
 		}
 		if (input::getKey(key::KEY_3)) {
-			shader_control2_value -= 0.01;
+			gi_resolution_divisor -= 0.5;
+			gi_resolution_divisor = std::fmaxf(gi_resolution_divisor, 1);
 		}
 		if (input::getKey(key::KEY_4)) {
-			shader_control2_value += 0.01;
+			gi_resolution_divisor += 0.5;
+			gi_resolution_divisor = std::fminf(gi_resolution_divisor, 16);
 		}
 
 		if (input::getKey(key::KEY_5)) {
@@ -565,6 +567,7 @@ void voxelGICore::filterInto_1st_bounce() {
 		std::cout << " shader_control_3_value " << shader_control3_value << " \n";
 		std::cout << " shader_control_4_value " << shader_control4_value << " \n";
 		std::cout << " shader_control_5_value " << shader_control5_value << " \n";
+		std::cout << " gi_resolution_divisor " << gi_resolution_divisor << " \n";
 		
 		//make sure DIFFUSE and basecolor filtering is "linear" and
 		//"linear mipmap linear" respectively.
@@ -760,10 +763,10 @@ void voxelGICore::renderSecondBounce( const renderer *curr_renderer,
 	//texures, if resolution of renderer's window doesn't match with their 
 	//resoltutions.
 	//Sets up viewport to be equal to the size of our low res GI texture.
-	vec2 lowResViewport = pointLightGI::lowRes_pass_bufferSetup(this->internalFBO, 
+	vec2 lowResViewport = pointLightGI::lowRes_pass_bufferSetup(this->internalFBO,
 																curr_renderer,
 																this->low_res_GITex,
-										 highResTextures,  2,  shader_control_value);
+																highResTextures, 2, gi_resolution_divisor);
 
 	//now, the viewport was already set, internalFBO was bound, with a low-res
 	//destination render texture. Let's simply render into this low-res texture.
@@ -903,7 +906,7 @@ void voxelGICore::renderScreenGI( vec2 viewportSize,
 
 
 	loc = glGetUniformLocation(currProg, "control");
-	glUniform1f(loc, 1);
+	glUniform1f(loc, shader_control_value);
 
 	loc = glGetUniformLocation(currProg, "control2");
 	glUniform1f(loc, shader_control2_value);

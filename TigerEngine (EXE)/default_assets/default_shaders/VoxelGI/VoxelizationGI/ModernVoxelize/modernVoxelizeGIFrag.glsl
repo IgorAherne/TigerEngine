@@ -117,7 +117,7 @@ void main(){
 	
 	 //as the emissive_brightness approaches '1', object will become less and less afected by lights.
 	vec3 diffuse =  material_color.rgb*illumination * (1 - clamp(emissive_brightness, 0, 1))//shaded by light if brightness is 0-to-1
-				    + material_color.rgb * clamp(emissive_brightness, 0, 1);//or will be material color if brightness is '1' or above.
+				    + material_color.rgb * clamp(emissive_brightness, 0, 1) * max(emissive_brightness, 1.0);//emissive surfaces can exceed basecolor brightness (HDR)
 
 	//if alpha is anything lower than one - apply effect now.
 	//later, during mipmapping process we will not affect generated colors by alpha, - 

@@ -34,12 +34,8 @@ public:
 
 	//allow the object to glow on its own. This will make it less susceptible to
 	//shading like lambert and shadows. Minimum value = 0;
-	//Maximum value = 2
-	//At value of 1 object becomes completely unnafected by light 
-	//shading like lambert, etc. At brightnesses higher than 1 shaders might
-	//enhance its "glow" if the shaders allow it.
 	inline void set_emissive(float brightness) {
-		emissive_brightness = std::fmaxf(0, std::fminf(brightness, 2));
+		emissive_brightness = std::fmaxf(0.f, brightness);
 	}
 
 	inline float get_emissive() const {
