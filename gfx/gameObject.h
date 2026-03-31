@@ -5,7 +5,7 @@
 #include "transform.h"
 
 class component; //be careful, don't use any functions of component in this header.
-enum componentType; //same, don't use its functionality here. Only in .cpp file
+enum class componentType; //same, don't use its functionality here. Only in .cpp file
 class bshape; //bounding shape
 class mesh;
 

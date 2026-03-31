@@ -20,14 +20,14 @@ typedef unsigned int GLuint;
 class repositories {
 public:
 	
-	//If the file has url  "../default_assets/myShaderVert.glsl",  supply to the 
+	//If the file has url  "./default_assets/myShaderVert.glsl",  supply to the 
 	//function a string "myShader"   
 	//"Vert" is considered a type, .glsl is extension
 	inline static shader *getShader(std::string name_no_extension_no_type) {
 		if (!repository) {
 			repository = new repositories(); //singleton-like pattern
 		}
-		auto shaders_lnk = repository->shaders;
+		auto& shaders_lnk = repository->shaders;
 
 		auto iterator = shaders_lnk.find(name_no_extension_no_type);
 		if (iterator != shaders_lnk.end()) {
@@ -36,14 +36,14 @@ public:
 		return nullptr;
 	}
 
-	//If the file has url  "../default_assets/myTexture.jpg",  supply to the 
+	//If the file has url  "./default_assets/myTexture.jpg",  supply to the 
 	//function a string "myTexture" 
 	//Anything after the dot is considered an extension
 	inline static texture *getTexture(std::string name_no_extension) {
 		if (!repository) {
 			repository = new repositories();
 		}
-		auto textures_lnk = repository->textures;
+		auto& textures_lnk = repository->textures;
 
 		auto iterator = textures_lnk.find(name_no_extension);
 		if (iterator != textures_lnk.end()) {
@@ -52,14 +52,14 @@ public:
 		return nullptr;
 	}
 
-	//If the file has url  "../default_assets/myMesh.obj",  supply to the 
+	//If the file has url  "./default_assets/myMesh.obj",  supply to the 
 	//function a string "myMesh" 
 	//Anything after the dot is considered an extension
 	inline static mesh *getMesh(std::string name_no_extension) {
 		if (!repository) {
 			repository = new repositories();
 		}
-		auto meshes_lnk = repository->meshes;
+		auto& meshes_lnk = repository->meshes;
 
 		auto iterator = meshes_lnk.find(name_no_extension);
 		if (iterator != meshes_lnk.end()){ 
@@ -83,7 +83,7 @@ private:
 	//for example,   myFile.txt, myMesh.obj, myTexture.jpg
 	//works for windows
 	//To pass any directory as argument, use  L as a prefix, for a long string. 
-	//Example:  L"../default_assets/"
+	//Example:  L"./default_assets/"
 	//TODO add another signature, surrounded with #defines, which accepts different
 	//argument, and works with other systems.
 	wstr_vector get_all_file_names_in_windows_dir(const std::wstring &folder);
@@ -114,7 +114,7 @@ private:
 	
 
 	//aids code-reusability. Gets called by tryMake_shader().
-	//file directory should be simmilar to "../default_assets/default_shaders/"
+	//file directory should be simmilar to "./default_assets/default_shaders/"
 	//file_name should be simmilar to "myShaderVert.glsl", where "Vert" is later
 	//reffered to as 'type'.
 	//shader_type can be simmilar to GL_VERTEX_SHADER

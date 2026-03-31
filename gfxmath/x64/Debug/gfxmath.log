@@ -1,34 +1,30 @@
-﻿  bshape.cpp
-  bshape_intersections.cpp
+﻿  bshape_intersections.cpp
   mat3.cpp
   mat4.cpp
+  obb_bshape.cpp
 C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(8,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(9,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(10,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(39,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(77,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(304,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(304,66): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(304,57): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(304,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(305,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(305,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(305,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(305,21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(306,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(306,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(306,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(306,21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(307,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(307,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(307,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(307,22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  obb_bshape.cpp
-  plane.cpp
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(37,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(75,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(300,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(300,66): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(300,57): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(300,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(301,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(301,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(301,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(301,21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(302,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(302,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(302,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(302,21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(303,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(303,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(303,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\_myDrive\repos\TigerEngine\gfxmath\mat4.cpp(303,22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   sphere_bshape.cpp
   timer.cpp
-  vec2.cpp
-  vec3.cpp
   vec4.cpp
   Generating Code...
 C:\_myDrive\repos\TigerEngine\gfxmath\vec3.h(171,1): warning C4715: 'vec3::operator[]': not all control paths return a value

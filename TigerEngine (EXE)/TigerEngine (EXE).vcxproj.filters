@@ -19,4 +19,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\interpolationGIpass\screenInterpolationFrag.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\LightFilterVoxelGI\renderSecondBounceGIFrag.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VoxelizationGI\ModernVoxelize\modernVoxelizeGIFrag.glsl" />
+    <None Include="default_assets\default_shaders\texture compute mipmapping\mipmapping3DtexRGBA16FCompute.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VoxelizationGI\ModernVoxelize\modernVoxelizeGIAverageCompute.glsl" />
+    <None Include="default_assets\default_shaders\texture compute mipmapping\mipmapping3DtexRGBA8Compute.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\LightFilterVoxelGI\lightFilterGICompute.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VoxelizationGI\ModernVoxelize\modernVoxelizeGIGeom.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VisualizationVoxelGI\voxelGI_marching_visualizeFrag.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\lightCommitFrag.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VoxelizationGI\ModernVoxelize\modernVoxelizeGIVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLight\pointLight_illumFrag.glsl" />
+    <None Include="default_assets\default_shaders\standardFrag.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\LightFilterVoxelGI\renderSecondBounceGIVert.glsl" />
+    <None Include="default_assets\default_shaders\texture compute mipmapping\mipmapping2DtexCompute.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\GIPass\GI_illumFrag.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\GIPass\GI_illumVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\hq_shading\hq_shadingFrag.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\hq_shading\hq_shadingVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\lightCommitVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLight\pointLight_illumVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\interpolationGIpass\screenInterpolationVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLight\shadowmapDefaultFrag.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLight\shadowmapDefaultVert.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\shadowmap\shadowmapGIFrag.glsl" />
+    <None Include="default_assets\default_shaders\deferred lighting\pointLightGI\shadowmap\shadowmapGIVert.glsl" />
+    <None Include="default_assets\default_shaders\standardVert.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VisualizationVoxelGI\voxelGI_marching_visualizeVert.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VisualizationVoxelGI\voxelGI_visualizeFrag.glsl" />
+    <None Include="default_assets\default_shaders\VoxelGI\VisualizationVoxelGI\voxelGI_visualizeVert.glsl" />
+  </ItemGroup>
 </Project>

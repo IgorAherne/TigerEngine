@@ -4,7 +4,7 @@
 #include "texture.h"
 #include <iostream>
 
-#define DEF_ASSETS_DIR L"../default_assets/*"
+#define DEF_ASSETS_DIR L"./default_assets/*"
 
 
 //instantiate static variables:
