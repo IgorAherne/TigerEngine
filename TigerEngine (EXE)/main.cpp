@@ -125,7 +125,7 @@ bool myFirst_scene_init() {
 	orange_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	orange_sphere->getMaterial()->set_Color(color(0.9, 0.6, 0.1, 1.0f));
 	orange_sphere->getMaterial()->set_emissive(10);
-	orange_sphere->getTransform()->setPosition(vec3(0, 0, -3.f));
+	orange_sphere->getTransform()->setPosition(vec3(9, 5, -6.f));
 	orange_sphere->getTransform()->setScale(vec3(3, 3, 3));
 	orange_sphere->attachComponent<basic_navigator>(
 					new basic_navigator(x_mov1, y_mov1, z_mov1, vec2(3, 0)));
@@ -138,21 +138,22 @@ bool myFirst_scene_init() {
 	green_sphere->getMaterial()->set_emissive(20);
 	green_sphere->getTransform()->setPosition(vec3(6, 10, 11.f));
 	green_sphere->getTransform()->setScale(vec3(2, 2, 2));
-	green_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 11, 0), 0));
+	green_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 30, 0), 0));
 	
 	gameObject *orange_sphere2 = new gameObject("pink sphere");
 	orange_sphere2->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	orange_sphere2->getMaterial()->set_Color(color(1, 0.1, 1, 1.0f));
-	orange_sphere2->getMaterial()->set_emissive(20);
+	orange_sphere2->getMaterial()->set_emissive(7);
 	orange_sphere2->getTransform()->setPosition(vec3(15.5, 8, 7.5f));
 	orange_sphere2->getTransform()->setScale(vec3(2, 2, 2));
 	
 	gameObject *blue_emissive_sphere = new gameObject("blue emsssive sphere");
-	blue_emissive_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
+	blue_emissive_sphere->attachComponent<mesh>(repositories::getMesh("offset_geosphere"));
 	blue_emissive_sphere->getMaterial()->set_Color(color(0.1, 0.5, 0.9, 1.0f));
 	blue_emissive_sphere->getMaterial()->set_emissive(30);
-	blue_emissive_sphere->getTransform()->setPosition(vec3(-5, 13.5, 12.f));
-	blue_emissive_sphere->getTransform()->setScale(vec3(4,4, 4));
+	blue_emissive_sphere->getTransform()->setPosition(vec3(5, 4, 3));
+	blue_emissive_sphere->getTransform()->setScale(vec3(1.5, 1.5, 1.5));
+	blue_emissive_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 50, 0), 0));
 	
 	//gameObject *blue_sphere = new gameObject("blue_sphere");
 	//blue_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
@@ -202,7 +203,7 @@ bool myFirst_scene_init() {
 	my_light->attachComponent<pointLight>(new pointLight(1024, vec2(1, 40)));
 	my_light->attachComponent<basic_navigator>(
 						new basic_navigator(x_mov2, y_mov2, z_mov2, vec2(3, 0)));
-	my_light->getTransform()->setPosition(vec3(3,0, 7));
+	my_light->getTransform()->setPosition(vec3(3, 10, 7));
 	my_light->getComponent<pointLight>()->set_intensity(0.001);
 	return true;
 }

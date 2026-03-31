@@ -257,25 +257,23 @@ void main() {
 		//modulating it by this incoming, indirect illumination.
 		firstSecond_bounce_light.rgb *= (baseColor.rgb*baseColor.a);
 
-		 //after all the cones performed sampling we can return finalColor.
-		float emission = normal.a;
+		//after all the cones performed sampling we can return finalColor.
 
-		//if emission is close to 1, disregard light shading (own diffuse), but still
-		//take into account illumination that might arrive from somewhere else (both bounces):
-		//If emission is close to 0 disregard any "raw" basecolor, and consider 
-		//own diffuse which is basecolor * illumination:
+		//normal.a carries the full HDR emissive_brightness from the deferred pipeline
+		//(possible because we upgraded the normal+emission texture to RGBA16F).
+		float brightness = normal.a;
+		float emission = clamp(brightness, 0.0, 1.0); //0=not emissive, 1=fully emissive
+		float emissiveHDR = max(brightness, 1.0);      //HDR multiplier (1.0 for non-emissive)
 
-		//For emissive surfaces, fetch their HDR brightness directly from the voxel diffuse texture.
-		//This way, surfaces with emissive_brightness > 1 visually glow on screen:
-		vec3 emissiveColor = baseColor.rgb;
-		if(emission > 0.0){
-			vec3 selfVoxelUV = (screenFrag_worldPos.xyz) / textureSize + 0.5;
-			emissiveColor = textureLod(diffuseTex, selfVoxelUV, 0).rgb;
-		}
-
-		fragColor.rgb =   (1-emission)*ownDiffuse.rgb + emission*emissiveColor
+		vec3 finalColor =   (1-emission)*ownDiffuse.rgb + emission*baseColor.rgb * emissiveHDR
 		 				+ firstSecond_bounce_light.rgb;//also add indirect illumination (first and second bounce)
-		
+
+		// tone-mapping to preserve color hue in HDR regions:
+		//Luminance-based Reinhard: preserves color saturation by scaling all channels equally.
+		float lum = dot(finalColor, vec3(0.2126, 0.7152, 0.0722));
+		float mappedLum = lum / (1.0 + lum);
+		fragColor.rgb = finalColor * (mappedLum / max(lum, 0.001));
+
 		fragColor.a = 1;
 
 		//visualize ambient occlusion for showreel:

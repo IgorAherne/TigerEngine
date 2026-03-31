@@ -34,6 +34,12 @@ void main(){
 	
 	//we want to provide the GI contribution to the existing lambertian shading.
 	//But, we want to have a somewhat average of those 2 colors, hence *0.5 is included :
-	fragColor[0] = vec4( (GIcolor + shadingColor*0.5),   1.0);
+	vec3 finalColor = GIcolor + shadingColor*0.5;
+
+	//tone mapping to preserve color hue in HDR regions:
+	//Luminance-based Reinhard: preserves color saturation by scaling all channels equally.
+	float lum = dot(finalColor, vec3(0.2126, 0.7152, 0.0722));
+	float mappedLum = lum / (1.0 + lum);
+	fragColor[0] = vec4( finalColor * (mappedLum / max(lum, 0.001)),   1.0);
 }
 

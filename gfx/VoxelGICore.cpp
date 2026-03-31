@@ -516,7 +516,7 @@ void voxelGICore::filterInto_1st_bounce() {
 		}
 		if (input::getKey(key::KEY_2)) {//starts from 1
 			shader_control_value += 0.1;
-			//shader_control_value = std::fminf(shader_control_value, 1);
+			shader_control_value = std::fminf(shader_control_value, 1);
 		}
 		if (input::getKey(key::KEY_3)) {
 			gi_resolution_divisor -= 0.5;

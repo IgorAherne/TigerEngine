@@ -134,8 +134,12 @@ renderer::renderer( const std::string window_name, size_t w_width,
 		//create textures and store them in our array:
 		//TODO not all of those textures are needed. Don't create the entire range.
 		//TODO perhaps GL_RGB8? instead of GL_RGBA8.
-		_renderTextures[t] = new texture(t == renderTextures::DEPTH_INDX ? GL_DEPTH_COMPONENT32 : GL_RGBA8,
-										 false,  m_window->m_width, m_window->m_height, 0 );
+		GLenum format = GL_RGBA8;
+		if (t == renderTextures::DEPTH_INDX)
+			format = GL_DEPTH_COMPONENT32;
+		else if (t == renderTextures::NORMAL_AND_EMISSION_INDX)
+			format = GL_RGBA16F; //16-bit float to carry HDR emissive brightness in alpha
+		_renderTextures[t] = new texture(format,  false,  m_window->m_width, m_window->m_height, 0 );
 		//set wrap, filtering, 
 		_renderTextures[t]->setWrap(GL_CLAMP);
 		_renderTextures[t]->setFiltering(GL_NEAREST);
