@@ -150,7 +150,7 @@ bool myFirst_scene_init() {
 	gameObject *blue_emissive_sphere = new gameObject("blue emsssive sphere");
 	blue_emissive_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	blue_emissive_sphere->getMaterial()->set_Color(color(0.1, 0.5, 0.9, 1.0f));
-	blue_emissive_sphere->getMaterial()->set_emissive(2000);
+	blue_emissive_sphere->getMaterial()->set_emissive(20);
 	blue_emissive_sphere->getTransform()->setPosition(vec3(-5, 13.5, 12.f));
 	blue_emissive_sphere->getTransform()->setScale(vec3(4,4, 4));
 	
