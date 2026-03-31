@@ -222,7 +222,7 @@ voxelGICore::voxelGICore(size_t GI_textures_res, float world_size){
 	shader_control2_value = 0;
 	shader_control3_value = 0;
 	shader_control4_value = 0;
-	shader_control5_value = 12;
+	shader_control5_value = 2;
 
 	glUseProgram(0);
 }

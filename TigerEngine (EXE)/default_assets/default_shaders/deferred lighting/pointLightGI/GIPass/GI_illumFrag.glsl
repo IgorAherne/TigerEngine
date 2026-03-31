@@ -42,7 +42,7 @@ vec4 gatherBounces(vec3 sceneFragPos_world, vec3 sceneFragNorm_world){
 	
 	lightPovCoord.xyz = normalize(lightPovCoord);
 	const int kernel_GI = 3; 
-	vec4 final_GI_color;  //here we will accomulate the color resulting from GI bounces
+	vec4 final_GI_color = vec4(0.0);  //here we will accomulate the color resulting from GI bounces
 	
 	for(int x = -kernel_GI; x < kernel_GI + 1; x++){
 		for(int y = -kernel_GI; y < kernel_GI + 1;  y++){
@@ -59,7 +59,7 @@ vec4 gatherBounces(vec3 sceneFragPos_world, vec3 sceneFragNorm_world){
 		}//end for y
 	}//end for x
 	
-	return final_GI_color / pow(float(kernel_GI) * 2 + 1, 2);
+	return final_GI_color / pow(float(kernel_GI) * 2 + 1, 3);
 }
 
 

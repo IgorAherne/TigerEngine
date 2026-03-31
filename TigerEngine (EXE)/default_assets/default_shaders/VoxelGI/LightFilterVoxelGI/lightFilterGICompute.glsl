@@ -9,7 +9,6 @@ uniform sampler3D normal_and_brightnessTex; //normals + emissive_brightness in a
 
 uniform sampler2D rgb_noiseTex;//allows us to get random rotation angle, via its noise.
 
-
 uniform float control;
 uniform float control2;
 uniform  int numTexels;//how many texels there is along 1 dimention of a texture:
@@ -20,17 +19,16 @@ layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
 
 
-
 //axis must be normalized
 mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
 
 	float radian_angle = acos(dot(axisFrom, axisTo));
 
-	//if both axis are aligned, we will STILL be able to compute rotation.
-	//no need for if-check. just make sure to normalize the pivot.
-	//This will spin voxels arround direction axis, when tangent == normal, but
-	//we will still rotate cones randomly, so this is even better for us.
-	vec3 pivot = normalize(cross(axisTo, axisFrom));
+	vec3 rawPivot = cross(axisTo, axisFrom);
+	float pivotLen = length(rawPivot);
+	vec3 pivot = pivotLen > 0.001
+	             ? rawPivot / pivotLen
+	             : normalize(cross(axisTo, vec3(0.0, 0.0, 1.0)));
 
 	float c = cos(radian_angle);
 	float s = sin(radian_angle);
@@ -61,8 +59,6 @@ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
 	rotMat[1].z = tmp1 - tmp2;
 
 	return rotMat;
-
-
 }
 
 
@@ -70,7 +66,6 @@ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
 //returns 0 if outside the volume.
 float isWithin01Bounds(vec3 coord) {
 	vec3 product = floor(0.9999 + max(vec3(0) + coord, -0.1) * max(vec3(1) - coord, -0.1));
-
 	return product.x*product.y*product.z;
 }
 
@@ -78,8 +73,6 @@ float isWithin01Bounds(vec3 coord) {
 
 void main() {
 	ivec3 start_coord = ivec3(gl_GlobalInvocationID);
-
-
 
 	//get the direction of the current, main voxel:
 	float voxelTranspar = texelFetch(diffuseTex, start_coord, 0).a;
@@ -151,6 +144,9 @@ void main() {
 		//this is how many cones we will use:
 		const int cone_num = 7;
 
+		//cosine-weighted solid-angle weights: center cone ~0.206, side cones ~0.132
+		float coneWeights[7] = float[7](0.206, 0.132, 0.132, 0.132, 0.132, 0.132, 0.132);
+
 		//perform voxel cone tracing with 7 cones:
 		for (int cone = 0; cone < cone_num; cone++) {
 
@@ -167,7 +163,10 @@ void main() {
 			//As we will get further and the cone will expand, we will 
 			//be stepping by larger distances, hence this variable will grow.
 
-			float travelled_voxelDistance = 0;
+			//Start at 1 voxel so each cone's first sample is at a distinct position.
+			//At distance 0 all cones would sample the same point (the offset start),
+			//wasting 6 of 7 texture fetches with no directional differentiation.
+			float travelled_voxelDistance = 1;
 			vec4 color_sampledByCone = vec4(0, 0, 0, 0);
 
 			//move along the cone direction:
@@ -207,9 +206,6 @@ void main() {
 				}*/
 
 				
-				color_sampledByCone.a = min(color_sampledByCone.a + foundDiffuse.a, 1);
-
-
 				//accomulate diffuse encountered at this advance.
 				//Concatenate colors as long as the incomming alpha can fit into the color_sampledByCone's:  
 				//And as long as the new colors are not out of datastructure's bounds
@@ -217,9 +213,9 @@ void main() {
 				color_sampledByCone.rgb +=	(1 - color_sampledByCone.a) 
 											*vec3(foundDiffuse.rgb) //TODO we can store emissiveness brightness here (in alpha), since transparency is already in diffuseTex
 											*within_bounds;  //instead of 'if' (commented out above)
-											
 
-
+				//CRITICAL: Alpha accumulated AFTER color:
+				color_sampledByCone.a += (1.0 - color_sampledByCone.a) * foundDiffuse.a;
 
 				//START CONE DEBUGGING
 			/*		vec4 mcol = vec4(0);
@@ -244,7 +240,6 @@ void main() {
 						mcol = vec4(0.9, 0.3, 0.71, 1);
 
 					mcol.rg *=  mod(i, 2) == 0 ? 1 : 1.2;
-
 
 
 				if (int(sampling_mip_lvl) >= 0) {
@@ -314,23 +309,20 @@ void main() {
 				travelled_voxelDistance += max(1.3, expected_voxel_voxelSize); //times 2 for further GI spread
 			}
 
-
 			//TODO how about doing each cone with a separate work unit?
 
 			//allow contribution from all cones to add up to 1
 			//times (1/7) == 0.1429
-			finalColor += (0.1429 * color_sampledByCone);
+			finalColor += (coneWeights[cone] * color_sampledByCone);
 		}//end for each cone
 
 
-
-		 //color of the starting voxel, will be modulating all of the light that's bounce
-		 //onto our surface by it.
-		 //NOTICE we are using start_coord, and NOT the offset_start_coord, since we need to
-		 //get the value at the starting voxel.
-		vec4 ownBasecolor = textureLod(basecolorTex,
-										vec3(start_coord + 0.5) / numTexels, 0
-									   );
+		//color of the starting voxel, will be modulating all of the light that's bounce
+		//onto our surface by it.
+		//NOTICE we are using start_coord, and NOT the offset_start_coord, since we need to
+		//get the value at the starting voxel.
+		vec4 ownBasecolor = textureLod( basecolorTex,
+										vec3(start_coord + 0.5) / numTexels,  0 );
 
 		//notice, we allowed ALL cone colors to ADD up, THEN multiply the result by our own color,
 		//(non-altered by any light's lambert or shadows, - just our pure material color).
@@ -345,8 +337,9 @@ void main() {
 		imageStore(lightBounceTex_output, start_coord, vec4(finalColor.rgb, voxelNormal.a));
 
 	}//end else if normal wasn't zero (we've sampled empty voxel
-		//imageStore(lightBounceTex_output, start_coord, vec4(0));
-			//imageStore(lightBounceTex_output, start_coord,   vec4( mod(vec3(start_coord), 128)/ 128, 1) );
+
+	//imageStore(lightBounceTex_output, start_coord, vec4(0));
+	//imageStore(lightBounceTex_output, start_coord,   vec4( mod(vec3(start_coord), 128)/ 128, 1) );
 		
 }//end main()
 

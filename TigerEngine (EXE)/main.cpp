@@ -115,7 +115,7 @@ bool myFirst_scene_init() {
 	gameObject *igor_aherne_text = new gameObject("igor_aherne_text");
 	igor_aherne_text->attachComponent<mesh>(repositories::getMesh("igor_aherne_text"));
 	igor_aherne_text->getTransform()->setPitchYawRoll(vec3(0, 0, 0));
-	igor_aherne_text->getMaterial()->set_emissive(1);
+	igor_aherne_text->getMaterial()->set_emissive(10);
 	igor_aherne_text->getMaterial()->set_Color(color(0.01, 0.6f, 0.8f, 1.0f));
 
 
@@ -124,7 +124,7 @@ bool myFirst_scene_init() {
 	//orange_sphere->attachComponent<mesh>(mesh::createQuad());
 	orange_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	orange_sphere->getMaterial()->set_Color(color(0.9, 0.6, 0.1, 1.0f));
-	orange_sphere->getMaterial()->set_emissive(1);
+	orange_sphere->getMaterial()->set_emissive(10);
 	orange_sphere->getTransform()->setPosition(vec3(0, 0, -3.f));
 	orange_sphere->getTransform()->setScale(vec3(3, 3, 3));
 	orange_sphere->attachComponent<basic_navigator>(
@@ -135,7 +135,7 @@ bool myFirst_scene_init() {
 	gameObject *green_sphere = new gameObject("green_sphere");
 	green_sphere->attachComponent<mesh>(repositories::getMesh("offset_geosphere"));
 	green_sphere->getMaterial()->set_Color(color(0.2, 1, 0.2, 1.0f));
-	green_sphere->getMaterial()->set_emissive(2);
+	green_sphere->getMaterial()->set_emissive(20);
 	green_sphere->getTransform()->setPosition(vec3(6, 10, 11.f));
 	green_sphere->getTransform()->setScale(vec3(2, 2, 2));
 	green_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 11, 0), 0));
@@ -143,14 +143,14 @@ bool myFirst_scene_init() {
 	gameObject *orange_sphere2 = new gameObject("pink sphere");
 	orange_sphere2->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	orange_sphere2->getMaterial()->set_Color(color(1, 0.1, 1, 1.0f));
-	orange_sphere2->getMaterial()->set_emissive(2);
+	orange_sphere2->getMaterial()->set_emissive(20);
 	orange_sphere2->getTransform()->setPosition(vec3(15.5, 8, 7.5f));
 	orange_sphere2->getTransform()->setScale(vec3(2, 2, 2));
 	
 	gameObject *blue_emissive_sphere = new gameObject("blue emsssive sphere");
 	blue_emissive_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	blue_emissive_sphere->getMaterial()->set_Color(color(0.1, 0.5, 0.9, 1.0f));
-	blue_emissive_sphere->getMaterial()->set_emissive(2);
+	blue_emissive_sphere->getMaterial()->set_emissive(2000);
 	blue_emissive_sphere->getTransform()->setPosition(vec3(-5, 13.5, 12.f));
 	blue_emissive_sphere->getTransform()->setScale(vec3(4,4, 4));
 	

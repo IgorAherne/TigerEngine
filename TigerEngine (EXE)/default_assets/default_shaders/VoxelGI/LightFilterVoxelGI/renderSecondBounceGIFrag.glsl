@@ -62,11 +62,11 @@ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
 
 	float radian_angle = acos(dot(axisFrom, axisTo));
 
-	//if both axis are aligned, we will STILL be able to compute rotation.
-	//no need for if-check. just make sure to normalize the pivot.
-	//This will spin voxels arround direction axis, when tangent == normal, but
-	//we will still rotate cones randomly, so this is even better for us.
-	vec3 pivot = normalize(cross(axisTo, axisFrom));
+	vec3 rawPivot = cross(axisTo, axisFrom);
+	float pivotLen = length(rawPivot);
+	vec3 pivot = pivotLen > 0.001
+	             ? rawPivot / pivotLen
+	             : normalize(cross(axisTo, vec3(0.0, 0.0, 1.0)));
 
 	float c = cos(radian_angle);
 	float s = sin(radian_angle);
@@ -201,15 +201,19 @@ void main() {
 			const int cone_num = 7;
 
 
-			vec3 start_voxel_Coord = floor(uv_world_pos * numVoxels);
 			//perform voxel cone tracing with 7 cones, getting JUST THE FIRST BOUNCE for the visible fragment.
 			//This means sampling nearby illumination*basecolor voxels:
 			//TODO make sure offset position is supplied for this fragment, and it won't sample its voxel.
+
+			vec3 start_voxel_Coord = floor(uv_world_pos * numVoxels);
+
+			//cosine-weighted solid-angle weights: center cone ~0.206, side cones ~0.132
+			float coneWeights[7] = float[7](0.206, 0.132, 0.132, 0.132, 0.132, 0.132, 0.132);
+
 			for (int cone = 0; cone < cone_num; cone++) {
 				//TODO make sure shader will unwind the forloop during compolation
 
 				vec3 coneDir = allConeDirs[cone];
-
 
 				//allow contribution from all cones to add up to 1
 				//times (1/7) == 0.1429
@@ -223,7 +227,7 @@ void main() {
 				//however, if we hardcode number by hand, shader will be able to unfold its for-loop.
 				//So perhaps if we need to change this number we will need to modify source through C++ then re-compile
 				const int numIter = 8; //int(log2(numVoxels + 1));
-				firstSecond_bounce_light +=  0.142 * sample_withCone(uv_world_pos, start_voxel_Coord, coneDir, numIter );
+				firstSecond_bounce_light +=  coneWeights[cone] * sample_withCone(uv_world_pos, start_voxel_Coord, coneDir, numIter );
 				
 			}//end for each cone
 
@@ -244,11 +248,9 @@ void main() {
 		//diffuse of the fragment  = (MATERIAL BASECOLOR) * (ILLUMINATION COEFF FROM DEFERED PIPELINE)
 		vec4 ownDiffuse = texture(scene_illumTex, screen_uv) * baseColor; 
 
-
-		//apply ambient occlusion both to diffuse AND to indirect illumination:
+		//apply ambient occlusion to direct light only.
+		//Indirect light is already naturally occluded by alpha accumulation during cone marching.
 		ownDiffuse.rgb *= firstSecond_bounce_light.a;
-		firstSecond_bounce_light.rgb *= firstSecond_bounce_light.a;
-
 
 		//notice, we allowed ALL cone colors to ADD up, THEN multiply the result by our own color,
 		//(non-altered by any light's lambert or shadows, - just our pure material color),
@@ -286,16 +288,20 @@ vec4 sample_withCone(vec3 uv_world_pos, vec3 start_voxel_voxelCoord, vec3 coneDi
 	//travelled_voxelDistance is what we start with as the "travelled_voxelDistance".
 	//As we will get further and the cone will expand, we will 
 	//have been travelling by the larger distance, hence this variable will grow:
+
+	//Start at 1 voxel so each cone's first sample is at a distinct position.
+	//At distance 0 all cones would sample the same point (the offset start),
+	//wasting 6 of 7 texture fetches with no directional differentiation.
 	float travelled_voxelDistance = 1;
 	vec4 diffuse_sampledByCone = vec4(0, 0, 0, 0); //alpha is transparency
 	vec4 bounce_sampledByCone = vec4(0, 0, 0, 0); //alpha is emissive (self-glow) brightness.
 	float ambientFactor = 0; //the close to 1 the more in shadow the fragment is.
 
-//TODO since we will offset by conedir as soon as we enter forloop. maybe reduce this offset by normal * '2.2' down a little
-//to like 1.7 or so
+	//TODO since we will offset by conedir as soon as we enter forloop. maybe reduce this offset by normal * '2.2' down a little
+	//to like 1.7 or so
 
 	//we will be sampling textures in a moment, it is based on starting coord 
-		//+ advancement along the cone direction.
+	//+ advancement along the cone direction.
 	vec3 sampling_coord = uv_world_pos;
 
 
@@ -345,11 +351,6 @@ vec4 sample_withCone(vec3 uv_world_pos, vec3 start_voxel_voxelCoord, vec3 coneDi
 		float isDifferentVoxel = clamp( max(voxelDifference.x, max(voxelDifference.y, voxelDifference.z)),  0,  1  );
 
 
-
-		diffuse_sampledByCone.a = min(diffuse_sampledByCone.a + isDifferentVoxel*foundDiffuse.a, 1);
-		bounce_sampledByCone.a += diffuse_sampledByCone.a;
-		
-
 		//accomulate diffuse encountered at this advancement along cone dir.
 		//diffuse = basecolor*lighting. 
 		//Recall that earlier, when diffuse was computed, if light saw that object was self-emissive
@@ -378,27 +379,27 @@ vec4 sample_withCone(vec3 uv_world_pos, vec3 start_voxel_voxelCoord, vec3 coneDi
 								    * vec3(foundBounce.rgb)
 								    * within_bounds; //instead of 'if' (commented out above)
 	
-
 		ambientFactor += (1 - diffuse_sampledByCone.a)
 						* within_bounds
 						* isDifferentVoxel
 						* clamp(5.5 - travelled_voxelDistance, 0, 1)
 						* foundDiffuse.a;
 
-			//increase the travel distance by AT LEAST 1.3 voxel, else by the size
-			//of the mipmap's expected voxel size
-			travelled_voxelDistance += max(1.5, expected_voxel_voxelSize);
+		//CRITICAL: Alpha accumulated AFTER color:
+		diffuse_sampledByCone.a += (1.0 - diffuse_sampledByCone.a) * isDifferentVoxel * foundDiffuse.a;
+
+		//increase the travel distance by AT LEAST 1.3 voxel, else by the size
+		//of the mipmap's expected voxel size
+		travelled_voxelDistance += max(1.5, expected_voxel_voxelSize);
 		
-			//Advancement is brought back into  "0 to 1" range with division by  total number of texels
-			//along the dimention of a texture: 
-			sampling_coord = uv_world_pos + (coneDir*travelled_voxelDistance) / numVoxels;
+		//Advancement is brought back into  "0 to 1" range with division by  total number of texels
+		//along the dimention of a texture: 
+		sampling_coord = uv_world_pos + (coneDir*travelled_voxelDistance) / numVoxels;
 	}
 
-
-	ambientFactor = ambientFactor;
 	//NOTICE, we will multiply by fragment's basecolor AFTER all the cones were collected. (AFTER this function)
 	
 	//boost second bounce a little (by 1.7)
-	return vec4(diffuse_sampledByCone.rgb + control*bounce_sampledByCone.rgb * 1.7,
+	return vec4(diffuse_sampledByCone.rgb + control*bounce_sampledByCone.rgb,
 				clamp(1 - ambientFactor, 0, 1));
 }//end for each cone

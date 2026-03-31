@@ -18,11 +18,11 @@ void main(){
 	
 
 	//perform slight gaussian blur on the global illumination
-	vec3 GIcolor;
+	vec3 GIcolor = vec3(0.0);
 	const int blur_kernel = 1;
 	for(int x = -blur_kernel; x < blur_kernel+1; ++x){
 		for(int y = -blur_kernel; y < blur_kernel+1; ++y){
-			GIcolor += texture(GI_illuminationTex, screen_uv  + pixelSize * x * y).rgb;
+			GIcolor += texture(GI_illuminationTex, screen_uv  + pixelSize * vec2(float(x), float(y))).rgb;
 		}
 	}
 	

@@ -1,0 +1,834 @@
+diff --git a/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/lightFilterGICompute.glsl b/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/lightFilterGICompute.glsl
+index 349e449..8f7f6be 100644
+--- a/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/lightFilterGICompute.glsl	
++++ b/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/lightFilterGICompute.glsl	
+@@ -9,7 +9,6 @@ uniform sampler3D normal_and_brightnessTex; //normals + emissive_brightness in a
+ 
+ uniform sampler2D rgb_noiseTex;//allows us to get random rotation angle, via its noise.
+ 
+-
+ uniform float control;
+ uniform float control2;
+ uniform  int numTexels;//how many texels there is along 1 dimention of a texture:
+@@ -20,17 +19,16 @@ layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+ 
+ 
+ 
+-
+ //axis must be normalized
+ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
+ 
+ 	float radian_angle = acos(dot(axisFrom, axisTo));
+ 
+-	//if both axis are aligned, we will STILL be able to compute rotation.
+-	//no need for if-check. just make sure to normalize the pivot.
+-	//This will spin voxels arround direction axis, when tangent == normal, but
+-	//we will still rotate cones randomly, so this is even better for us.
+-	vec3 pivot = normalize(cross(axisTo, axisFrom));
++	vec3 rawPivot = cross(axisTo, axisFrom);
++	float pivotLen = length(rawPivot);
++	vec3 pivot = pivotLen > 0.001
++	             ? rawPivot / pivotLen
++	             : normalize(cross(axisTo, vec3(0.0, 0.0, 1.0)));
+ 
+ 	float c = cos(radian_angle);
+ 	float s = sin(radian_angle);
+@@ -61,8 +59,6 @@ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
+ 	rotMat[1].z = tmp1 - tmp2;
+ 
+ 	return rotMat;
+-
+-
+ }
+ 
+ 
+@@ -70,7 +66,6 @@ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
+ //returns 0 if outside the volume.
+ float isWithin01Bounds(vec3 coord) {
+ 	vec3 product = floor(0.9999 + max(vec3(0) + coord, -0.1) * max(vec3(1) - coord, -0.1));
+-
+ 	return product.x*product.y*product.z;
+ }
+ 
+@@ -79,8 +74,6 @@ float isWithin01Bounds(vec3 coord) {
+ void main() {
+ 	ivec3 start_coord = ivec3(gl_GlobalInvocationID);
+ 
+-
+-
+ 	//get the direction of the current, main voxel:
+ 	float voxelTranspar = texelFetch(diffuseTex, start_coord, 0).a;
+ 	//TODO check if normal is empty - hence we could return straight away...
+@@ -151,6 +144,9 @@ void main() {
+ 		//this is how many cones we will use:
+ 		const int cone_num = 7;
+ 
++		//cosine-weighted solid-angle weights: center cone ~0.206, side cones ~0.132
++		float coneWeights[7] = float[7](0.206, 0.132, 0.132, 0.132, 0.132, 0.132, 0.132);
++
+ 		//perform voxel cone tracing with 7 cones:
+ 		for (int cone = 0; cone < cone_num; cone++) {
+ 
+@@ -167,7 +163,10 @@ void main() {
+ 			//As we will get further and the cone will expand, we will 
+ 			//be stepping by larger distances, hence this variable will grow.
+ 
+-			float travelled_voxelDistance = 0;
++			//Start at 1 voxel so each cone's first sample is at a distinct position.
++			//At distance 0 all cones would sample the same point (the offset start),
++			//wasting 6 of 7 texture fetches with no directional differentiation.
++			float travelled_voxelDistance = 1;
+ 			vec4 color_sampledByCone = vec4(0, 0, 0, 0);
+ 
+ 			//move along the cone direction:
+@@ -207,9 +206,6 @@ void main() {
+ 				}*/
+ 
+ 				
+-				color_sampledByCone.a = min(color_sampledByCone.a + foundDiffuse.a, 1);
+-
+-
+ 				//accomulate diffuse encountered at this advance.
+ 				//Concatenate colors as long as the incomming alpha can fit into the color_sampledByCone's:  
+ 				//And as long as the new colors are not out of datastructure's bounds
+@@ -217,9 +213,9 @@ void main() {
+ 				color_sampledByCone.rgb +=	(1 - color_sampledByCone.a) 
+ 											*vec3(foundDiffuse.rgb) //TODO we can store emissiveness brightness here (in alpha), since transparency is already in diffuseTex
+ 											*within_bounds;  //instead of 'if' (commented out above)
+-											
+-
+ 
++				//CRITICAL: Alpha accumulated AFTER color:
++				color_sampledByCone.a += (1.0 - color_sampledByCone.a) * foundDiffuse.a;
+ 
+ 				//START CONE DEBUGGING
+ 			/*		vec4 mcol = vec4(0);
+@@ -246,7 +242,6 @@ void main() {
+ 					mcol.rg *=  mod(i, 2) == 0 ? 1 : 1.2;
+ 
+ 
+-
+ 				if (int(sampling_mip_lvl) >= 0) {
+ 					imageStore(lightBounceTex_output, ivec3(offset_start_coord) + ivec3(coneDir *travelled_voxelDistance), mcol);
+ 				}
+@@ -314,23 +309,20 @@ void main() {
+ 				travelled_voxelDistance += max(1.3, expected_voxel_voxelSize); //times 2 for further GI spread
+ 			}
+ 
+-
+ 			//TODO how about doing each cone with a separate work unit?
+ 
+ 			//allow contribution from all cones to add up to 1
+ 			//times (1/7) == 0.1429
+-			finalColor += (0.1429 * color_sampledByCone);
++			finalColor += (coneWeights[cone] * color_sampledByCone);
+ 		}//end for each cone
+ 
+ 
+-
+-		 //color of the starting voxel, will be modulating all of the light that's bounce
+-		 //onto our surface by it.
+-		 //NOTICE we are using start_coord, and NOT the offset_start_coord, since we need to
+-		 //get the value at the starting voxel.
+-		vec4 ownBasecolor = textureLod(basecolorTex,
+-										vec3(start_coord + 0.5) / numTexels, 0
+-									   );
++		//color of the starting voxel, will be modulating all of the light that's bounce
++		//onto our surface by it.
++		//NOTICE we are using start_coord, and NOT the offset_start_coord, since we need to
++		//get the value at the starting voxel.
++		vec4 ownBasecolor = textureLod( basecolorTex,
++										vec3(start_coord + 0.5) / numTexels,  0 );
+ 
+ 		//notice, we allowed ALL cone colors to ADD up, THEN multiply the result by our own color,
+ 		//(non-altered by any light's lambert or shadows, - just our pure material color).
+@@ -345,8 +337,9 @@ void main() {
+ 		imageStore(lightBounceTex_output, start_coord, vec4(finalColor.rgb, voxelNormal.a));
+ 
+ 	}//end else if normal wasn't zero (we've sampled empty voxel
+-		//imageStore(lightBounceTex_output, start_coord, vec4(0));
+-			//imageStore(lightBounceTex_output, start_coord,   vec4( mod(vec3(start_coord), 128)/ 128, 1) );
++
++	//imageStore(lightBounceTex_output, start_coord, vec4(0));
++	//imageStore(lightBounceTex_output, start_coord,   vec4( mod(vec3(start_coord), 128)/ 128, 1) );
+ 		
+ }//end main()
+ 
+diff --git a/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/renderSecondBounceGIFrag.glsl b/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/renderSecondBounceGIFrag.glsl
+index 9260d25..03fc043 100644
+--- a/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/renderSecondBounceGIFrag.glsl	
++++ b/TigerEngine (EXE)/default_assets/default_shaders/VoxelGI/LightFilterVoxelGI/renderSecondBounceGIFrag.glsl	
+@@ -62,11 +62,11 @@ mat3 matrixFromAxisAngle(vec3 axisFrom, vec3 axisTo) {
+ 
+ 	float radian_angle = acos(dot(axisFrom, axisTo));
+ 
+-	//if both axis are aligned, we will STILL be able to compute rotation.
+-	//no need for if-check. just make sure to normalize the pivot.
+-	//This will spin voxels arround direction axis, when tangent == normal, but
+-	//we will still rotate cones randomly, so this is even better for us.
+-	vec3 pivot = normalize(cross(axisTo, axisFrom));
++	vec3 rawPivot = cross(axisTo, axisFrom);
++	float pivotLen = length(rawPivot);
++	vec3 pivot = pivotLen > 0.001
++	             ? rawPivot / pivotLen
++	             : normalize(cross(axisTo, vec3(0.0, 0.0, 1.0)));
+ 
+ 	float c = cos(radian_angle);
+ 	float s = sin(radian_angle);
+@@ -201,16 +201,20 @@ void main() {
+ 			const int cone_num = 7;
+ 
+ 
+-			vec3 start_voxel_Coord = floor(uv_world_pos * numVoxels);
+ 			//perform voxel cone tracing with 7 cones, getting JUST THE FIRST BOUNCE for the visible fragment.
+ 			//This means sampling nearby illumination*basecolor voxels:
+ 			//TODO make sure offset position is supplied for this fragment, and it won't sample its voxel.
++
++			vec3 start_voxel_Coord = floor(uv_world_pos * numVoxels);
++
++			//cosine-weighted solid-angle weights: center cone ~0.206, side cones ~0.132
++			float coneWeights[7] = float[7](0.206, 0.132, 0.132, 0.132, 0.132, 0.132, 0.132);
++
+ 			for (int cone = 0; cone < cone_num; cone++) {
+ 				//TODO make sure shader will unwind the forloop during compolation
+ 
+ 				vec3 coneDir = allConeDirs[cone];
+ 
+-
+ 				//allow contribution from all cones to add up to 1
+ 				//times (1/7) == 0.1429
+ 				//uv_world_pos is world position relative to the width, height and depth of the voxel structure.
+@@ -223,7 +227,7 @@ void main() {
+ 				//however, if we hardcode number by hand, shader will be able to unfold its for-loop.
+ 				//So perhaps if we need to change this number we will need to modify source through C++ then re-compile
+ 				const int numIter = 8; //int(log2(numVoxels + 1));
+-				firstSecond_bounce_light +=  0.142 * sample_withCone(uv_world_pos, start_voxel_Coord, coneDir, numIter );
++				firstSecond_bounce_light +=  coneWeights[cone] * sample_withCone(uv_world_pos, start_voxel_Coord, coneDir, numIter );
+ 				
+ 			}//end for each cone
+ 
+@@ -244,11 +248,9 @@ void main() {
+ 		//diffuse of the fragment  = (MATERIAL BASECOLOR) * (ILLUMINATION COEFF FROM DEFERED PIPELINE)
+ 		vec4 ownDiffuse = texture(scene_illumTex, screen_uv) * baseColor; 
+ 
+-
+-		//apply ambient occlusion both to diffuse AND to indirect illumination:
++		//apply ambient occlusion to direct light only.
++		//Indirect light is already naturally occluded by alpha accumulation during cone marching.
+ 		ownDiffuse.rgb *= firstSecond_bounce_light.a;
+-		firstSecond_bounce_light.rgb *= firstSecond_bounce_light.a;
+-
+ 
+ 		//notice, we allowed ALL cone colors to ADD up, THEN multiply the result by our own color,
+ 		//(non-altered by any light's lambert or shadows, - just our pure material color),
+@@ -286,16 +288,20 @@ vec4 sample_withCone(vec3 uv_world_pos, vec3 start_voxel_voxelCoord, vec3 coneDi
+ 	//travelled_voxelDistance is what we start with as the "travelled_voxelDistance".
+ 	//As we will get further and the cone will expand, we will 
+ 	//have been travelling by the larger distance, hence this variable will grow:
++
++	//Start at 1 voxel so each cone's first sample is at a distinct position.
++	//At distance 0 all cones would sample the same point (the offset start),
++	//wasting 6 of 7 texture fetches with no directional differentiation.
+ 	float travelled_voxelDistance = 1;
+ 	vec4 diffuse_sampledByCone = vec4(0, 0, 0, 0); //alpha is transparency
+ 	vec4 bounce_sampledByCone = vec4(0, 0, 0, 0); //alpha is emissive (self-glow) brightness.
+ 	float ambientFactor = 0; //the close to 1 the more in shadow the fragment is.
+ 
+-//TODO since we will offset by conedir as soon as we enter forloop. maybe reduce this offset by normal * '2.2' down a little
+-//to like 1.7 or so
++	//TODO since we will offset by conedir as soon as we enter forloop. maybe reduce this offset by normal * '2.2' down a little
++	//to like 1.7 or so
+ 
+ 	//we will be sampling textures in a moment, it is based on starting coord 
+-		//+ advancement along the cone direction.
++	//+ advancement along the cone direction.
+ 	vec3 sampling_coord = uv_world_pos;
+ 
+ 
+@@ -345,11 +351,6 @@ vec4 sample_withCone(vec3 uv_world_pos, vec3 start_voxel_voxelCoord, vec3 coneDi
+ 		float isDifferentVoxel = clamp( max(voxelDifference.x, max(voxelDifference.y, voxelDifference.z)),  0,  1  );
+ 
+ 
+-
+-		diffuse_sampledByCone.a = min(diffuse_sampledByCone.a + isDifferentVoxel*foundDiffuse.a, 1);
+-		bounce_sampledByCone.a += diffuse_sampledByCone.a;
+-		
+-
+ 		//accomulate diffuse encountered at this advancement along cone dir.
+ 		//diffuse = basecolor*lighting. 
+ 		//Recall that earlier, when diffuse was computed, if light saw that object was self-emissive
+@@ -378,27 +379,27 @@ vec4 sample_withCone(vec3 uv_world_pos, vec3 start_voxel_voxelCoord, vec3 coneDi
+ 								    * vec3(foundBounce.rgb)
+ 								    * within_bounds; //instead of 'if' (commented out above)
+ 	
+-
+ 		ambientFactor += (1 - diffuse_sampledByCone.a)
+ 						* within_bounds
+ 						* isDifferentVoxel
+ 						* clamp(5.5 - travelled_voxelDistance, 0, 1)
+ 						* foundDiffuse.a;
+ 
+-			//increase the travel distance by AT LEAST 1.3 voxel, else by the size
+-			//of the mipmap's expected voxel size
+-			travelled_voxelDistance += max(1.5, expected_voxel_voxelSize);
++		//CRITICAL: Alpha accumulated AFTER color:
++		diffuse_sampledByCone.a += (1.0 - diffuse_sampledByCone.a) * isDifferentVoxel * foundDiffuse.a;
++
++		//increase the travel distance by AT LEAST 1.3 voxel, else by the size
++		//of the mipmap's expected voxel size
++		travelled_voxelDistance += max(1.5, expected_voxel_voxelSize);
+ 		
+-			//Advancement is brought back into  "0 to 1" range with division by  total number of texels
+-			//along the dimention of a texture: 
+-			sampling_coord = uv_world_pos + (coneDir*travelled_voxelDistance) / numVoxels;
++		//Advancement is brought back into  "0 to 1" range with division by  total number of texels
++		//along the dimention of a texture: 
++		sampling_coord = uv_world_pos + (coneDir*travelled_voxelDistance) / numVoxels;
+ 	}
+ 
+-
+-	ambientFactor = ambientFactor;
+ 	//NOTICE, we will multiply by fragment's basecolor AFTER all the cones were collected. (AFTER this function)
+ 	
+ 	//boost second bounce a little (by 1.7)
+-	return vec4(diffuse_sampledByCone.rgb + control*bounce_sampledByCone.rgb * 1.7,
++	return vec4(diffuse_sampledByCone.rgb + control*bounce_sampledByCone.rgb,
+ 				clamp(1 - ambientFactor, 0, 1));
+ }//end for each cone
+diff --git a/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/GIPass/GI_illumFrag.glsl b/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/GIPass/GI_illumFrag.glsl
+index 1f93922..b253f16 100644
+--- a/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/GIPass/GI_illumFrag.glsl	
++++ b/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/GIPass/GI_illumFrag.glsl	
+@@ -42,7 +42,7 @@ vec4 gatherBounces(vec3 sceneFragPos_world, vec3 sceneFragNorm_world){
+ 	
+ 	lightPovCoord.xyz = normalize(lightPovCoord);
+ 	const int kernel_GI = 3; 
+-	vec4 final_GI_color;  //here we will accomulate the color resulting from GI bounces
++	vec4 final_GI_color = vec4(0.0);  //here we will accomulate the color resulting from GI bounces
+ 	
+ 	for(int x = -kernel_GI; x < kernel_GI + 1; x++){
+ 		for(int y = -kernel_GI; y < kernel_GI + 1;  y++){
+@@ -59,7 +59,7 @@ vec4 gatherBounces(vec3 sceneFragPos_world, vec3 sceneFragNorm_world){
+ 		}//end for y
+ 	}//end for x
+ 	
+-	return final_GI_color / pow(float(kernel_GI) * 2 + 1, 2);
++	return final_GI_color / pow(float(kernel_GI) * 2 + 1, 3);
+ }
+ 
+ 
+diff --git a/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/hq_shading/hq_shadingFrag.glsl b/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/hq_shading/hq_shadingFrag.glsl
+index e8e61c2..8a796c2 100644
+--- a/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/hq_shading/hq_shadingFrag.glsl	
++++ b/TigerEngine (EXE)/default_assets/default_shaders/deferred lighting/pointLightGI/hq_shading/hq_shadingFrag.glsl	
+@@ -18,11 +18,11 @@ void main(){
+ 	
+ 
+ 	//perform slight gaussian blur on the global illumination
+-	vec3 GIcolor;
++	vec3 GIcolor = vec3(0.0);
+ 	const int blur_kernel = 1;
+ 	for(int x = -blur_kernel; x < blur_kernel+1; ++x){
+ 		for(int y = -blur_kernel; y < blur_kernel+1; ++y){
+-			GIcolor += texture(GI_illuminationTex, screen_uv  + pixelSize * x * y).rgb;
++			GIcolor += texture(GI_illuminationTex, screen_uv  + pixelSize * vec2(float(x), float(y))).rgb;
+ 		}
+ 	}
+ 	
+diff --git a/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).iobj b/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).iobj
+index 4b967ee..5adf24a 100644
+Binary files a/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).iobj and b/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).iobj differ
+diff --git a/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).ipdb b/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).ipdb
+index 41d0156..a54f051 100644
+Binary files a/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).ipdb and b/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).ipdb differ
+diff --git a/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).log b/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).log
+index 452e7d8..6d5d52f 100644
+--- a/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).log	
++++ b/TigerEngine (EXE)/x64/Release/TigerEngine (EXE).log	
+@@ -1,71 +1,8 @@
+-﻿  main.cpp
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(176,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(175,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(189,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(197,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'main.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+-  (compiling source file 'main.cpp')
+-  
+-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+-  (compiling source file 'main.cpp')
+-      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+-      see previous definition of 'APIENTRY'
+-  
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(95,32): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(109,44): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(119,51): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(126,58): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(126,53): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(126,48): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(137,55): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(137,47): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(145,52): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(152,65): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(152,55): warning C4305: 'argument': truncation from 'double' to 'float'
+-C:\_myDrive\repos\TigerEngine\TigerEngine (EXE)\main.cpp(206,54): warning C4305: 'argument': truncation from 'double' to 'float'
+-MSVCRT.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
++﻿MSVCRT.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+   Generating code
+-  142 of 2339 functions ( 6.1%) were compiled, the rest were copied from previous compilation.
++  0 of 2339 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+     0 functions were new in current compilation
+-    92 functions had inline decision re-evaluated but remain unchanged
++    0 functions had inline decision re-evaluated but remain unchanged
+   Finished generating code
+ glew32s.lib(glew.obj) : warning LNK4099: PDB 'glew32s.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\_myDrive\repos\TigerEngine\x64\Release\glew32s.pdb'; linking object as if no debug info
+ LINK : warning LNK4286: symbol '__glewUniform4fv' defined in 'glew32s.lib(glew.obj)' is imported by 'gfx.lib(renderer.obj)'
+diff --git a/gfx/VoxelGICore.cpp b/gfx/VoxelGICore.cpp
+index 011588b..5a7155a 100644
+--- a/gfx/VoxelGICore.cpp
++++ b/gfx/VoxelGICore.cpp
+@@ -222,7 +222,7 @@ voxelGICore::voxelGICore(size_t GI_textures_res, float world_size){
+ 	shader_control2_value = 0;
+ 	shader_control3_value = 0;
+ 	shader_control4_value = 0;
+-	shader_control5_value = 12;
++	shader_control5_value = 2;
+ 
+ 	glUseProgram(0);
+ }
+diff --git a/gfx/x64/Release/VoxelGICore.obj b/gfx/x64/Release/VoxelGICore.obj
+index 96b7cd2..4474bcb 100644
+Binary files a/gfx/x64/Release/VoxelGICore.obj and b/gfx/x64/Release/VoxelGICore.obj differ
+diff --git a/gfx/x64/Release/gfx.log b/gfx/x64/Release/gfx.log
+index a55ce03..f60f537 100644
+--- a/gfx/x64/Release/gfx.log
++++ b/gfx/x64/Release/gfx.log
+@@ -96,367 +96,4 @@ C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(805,62): warning C4244: 'argum
+ C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(805,42): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+ C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(831,47): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+ C:\_myDrive\repos\TigerEngine\gfx\VoxelGICore.cpp(831,31): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+-  material.cpp
+-C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(176,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(175,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(189,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(197,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'material.cpp')
+-  
+-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+-  (compiling source file 'material.cpp')
+-      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+-      see previous definition of 'APIENTRY'
+-  
+-  pointLight.cpp
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(176,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(175,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(189,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(197,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+-  (compiling source file 'pointLight.cpp')
+-      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+-      see previous definition of 'APIENTRY'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+-  (compiling source file 'pointLight.cpp')
+-      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+-      see declaration of 'texture'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+-  (compiling source file 'pointLight.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(50,71): warning C4244: 'argument': conversion from 'GLuint' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(50,49): warning C4244: 'argument': conversion from 'GLuint' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(185,24): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(185,19): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(191,50): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(191,50): warning C4267:         with
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(191,50): warning C4267:         [
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(191,50): warning C4267:             _Ty=unsigned int
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(191,50): warning C4267:         ]
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(195,37): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(235,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(239,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(243,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(392,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLight.cpp(393,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+-  pointLightGI.cpp
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(176,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(175,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(189,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(197,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+-  (compiling source file 'pointLightGI.cpp')
+-      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+-      see previous definition of 'APIENTRY'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+-  (compiling source file 'pointLightGI.cpp')
+-      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+-      see declaration of 'texture'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+-  (compiling source file 'pointLightGI.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(331,23): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(332,24): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(344,52): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(344,29): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(353,18): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(352,54): warning C4244: 'argument': conversion from 'float' to 'size_t', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(360,42): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(360,19): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(431,77): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(431,46): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(480,34): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(479,46): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(657,16): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\pointLightGI.cpp(658,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+-  renderer.cpp
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(176,20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(175,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(189,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\input.h(197,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.h(106,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\gameObject.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\scene.h(101,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+-  (compiling source file 'renderer.cpp')
+-      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+-      see previous definition of 'APIENTRY'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+-  (compiling source file 'renderer.cpp')
+-      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+-      see declaration of 'texture'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+-  (compiling source file 'renderer.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\voxelGICore.h(21,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+-  (compiling source file 'renderer.cpp')
+-      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+-      see declaration of 'texture'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.cpp(224,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.cpp(341,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\renderer.cpp(341,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-  repositories.cpp
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(37,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(38,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(39,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(40,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(45,29): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(46,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(47,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfxmath\color.h(48,20): warning C4244: 'argument': conversion from 'float' to 'unsigned char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8): warning C4099: 'texture': type name first seen using 'class' now seen using 'struct'
+-  (compiling source file 'repositories.cpp')
+-      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+-      see declaration of 'texture'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-  
+-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4813,18): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
+-  (compiling source file 'repositories.cpp')
+-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4813,18):
+-      the template instantiation context (the oldest one first) is
+-          C:\_myDrive\repos\TigerEngine\gfx\repositories.cpp(118,35):
+-          see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+-          with
+-          [
+-              _Elem=wchar_t,
+-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+-              _Alloc=std::allocator<char>
+-          ]
+-              C:\_myDrive\repos\TigerEngine\gfx\repositories.cpp(118,13):
+-              see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'repositories::plugSourceInShader'
+-          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(812,17):
+-          see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<wchar_t*,wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+-          with
+-          [
+-              _Size_type=unsigned __int64,
+-              _Iter=wchar_t *,
+-              _Sent=wchar_t *,
+-              _Size=unsigned __int64
+-          ]
+-          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring(968,18):
+-          see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+-          with
+-          [
+-              _OutIt=char *,
+-              _Size=unsigned __int64,
+-              _InIt=wchar_t *,
+-              _SizeTy=unsigned __int64
+-          ]
+-  
+-  texture.cpp
+-C:\_myDrive\repos\TigerEngine\gfx\texture.h(104,31): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+-  (compiling source file 'texture.cpp')
+-  
+-C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\minwindef.h(130,9): warning C4005: 'APIENTRY': macro redefinition
+-  (compiling source file 'texture.cpp')
+-      C:\_myDrive\repos\TigerEngine\include\GLFW\glfw3.h(123,11):
+-      see previous definition of 'APIENTRY'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\repositories.h(10,7): warning C4099: 'texture': type name first seen using 'struct' now seen using 'class'
+-  (compiling source file 'texture.cpp')
+-      C:\_myDrive\repos\TigerEngine\gfx\texture.h(17,8):
+-      see declaration of 'texture'
+-  
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(231,10): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(233,9): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(258,37): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(258,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(280,28): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(280,14): warning C4553: '==': result of expression not used; did you intend '='?
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(282,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(301,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(301,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(302,21): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(344,37): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(344,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(371,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(371,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(372,21): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(416,36): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(416,23): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(430,71): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(433,45): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(439,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(440,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(458,87): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(458,79): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(458,71): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(461,67): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(461,59): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(461,51): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(468,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(469,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+-C:\_myDrive\repos\TigerEngine\gfx\texture.cpp(472,50): warning C4267: 'argument': conversion from 'size_t' to 'GLenum', possible loss of data
+   gfx.vcxproj -> C:\_myDrive\repos\TigerEngine\lib\Release\gfx.lib
+diff --git a/gfx/x64/Release/gfx.tlog/CL.command.1.tlog b/gfx/x64/Release/gfx.tlog/CL.command.1.tlog
+index 0ec0c96..5e36588 100644
+Binary files a/gfx/x64/Release/gfx.tlog/CL.command.1.tlog and b/gfx/x64/Release/gfx.tlog/CL.command.1.tlog differ
+diff --git a/gfx/x64/Release/gfx.tlog/CL.read.1.tlog b/gfx/x64/Release/gfx.tlog/CL.read.1.tlog
+index 396c371..3b0875c 100644
+Binary files a/gfx/x64/Release/gfx.tlog/CL.read.1.tlog and b/gfx/x64/Release/gfx.tlog/CL.read.1.tlog differ
+diff --git a/gfx/x64/Release/gfx.tlog/CL.write.1.tlog b/gfx/x64/Release/gfx.tlog/CL.write.1.tlog
+index 9c4e8b7..04191c6 100644
+Binary files a/gfx/x64/Release/gfx.tlog/CL.write.1.tlog and b/gfx/x64/Release/gfx.tlog/CL.write.1.tlog differ
+diff --git a/gfx/x64/Release/repositories.obj b/gfx/x64/Release/repositories.obj
+index 8ce5ce5..a63fca2 100644
+Binary files a/gfx/x64/Release/repositories.obj and b/gfx/x64/Release/repositories.obj differ
+diff --git a/lib/Release/gfx.lib b/lib/Release/gfx.lib
+index 133e0e2..9011322 100644
+Binary files a/lib/Release/gfx.lib and b/lib/Release/gfx.lib differ
+diff --git a/lib/Release/gfx.pdb b/lib/Release/gfx.pdb
+index 64fffdb..5e7b702 100644
+Binary files a/lib/Release/gfx.pdb and b/lib/Release/gfx.pdb differ
+diff --git a/x64/Release/TigerEngine (EXE).exe b/x64/Release/TigerEngine (EXE).exe
+index 5f77bd2..6371fad 100644
+Binary files a/x64/Release/TigerEngine (EXE).exe and b/x64/Release/TigerEngine (EXE).exe differ
+diff --git a/x64/Release/TigerEngine (EXE).pdb b/x64/Release/TigerEngine (EXE).pdb
+index f71b03d..c84cfbf 100644
+Binary files a/x64/Release/TigerEngine (EXE).pdb and b/x64/Release/TigerEngine (EXE).pdb differ
