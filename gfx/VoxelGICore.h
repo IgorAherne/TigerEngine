@@ -36,8 +36,8 @@ public:
 	//A vector of lights has to be passed so that the voxels can be lit. Make sure
 	//to pass those which ALREADY have their shadowmap updated and ready to use
 	//TODO remove nesessity of rasterizing into the shadowmap
-	void voxelizeMeshes(std::vector<gameObject*> gobjects,
-						std::vector<light*> lights_with_shadowmaps);
+	void voxelizeMeshes(const std::vector<gameObject*>& gobjects,
+						const std::vector<light*>& lights_with_shadowmaps);
 	
 	//clear all the voxel values of internal 3D textures
 	void clearVoxels();
@@ -92,8 +92,8 @@ public:
 	float shader_control5_value;
 
 protected:
-	void modernVoxelize( std::vector<gameObject*> gobjects,
-						 std::vector<light*> lights_with_shadowmaps );
+	void modernVoxelize( const std::vector<gameObject*>& gobjects,
+						 const std::vector<light*>& lights_with_shadowmaps );
 
 	//follows modernVoxelize(), allows to compute average of attomically added color
 	//values. Does it via compute shader.

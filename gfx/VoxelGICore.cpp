@@ -253,8 +253,8 @@ voxelGICore::~voxelGICore(){
 
 
 
-void voxelGICore::voxelizeMeshes(std::vector<gameObject*> gobjects, 
-								 std::vector<light*> lights_with_shadowmaps) {
+void voxelGICore::voxelizeMeshes(const std::vector<gameObject*>& gobjects, 
+								 const std::vector<light*>& lights_with_shadowmaps) {
 
 	if(GLEW_VERSION_4_3){
 		//TODO check if extension is supported:
@@ -266,9 +266,8 @@ void voxelGICore::voxelizeMeshes(std::vector<gameObject*> gobjects,
 
 
 
-void voxelGICore::modernVoxelize( std::vector<gameObject*> gobjects,
-								  std::vector<light*> lights_with_shadowmaps) {
-
+void voxelGICore::modernVoxelize( const std::vector<gameObject*>& gobjects,
+								  const std::vector<light*>& lights_with_shadowmaps) {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, internalFBO);
 

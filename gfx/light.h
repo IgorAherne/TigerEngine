@@ -34,7 +34,7 @@ public:
 		return this->light_near_far_range;
 	}
 
-	inline vec2 set_light_nearFar_range(vec2 nearFar) {
+	inline void set_light_nearFar_range(vec2 nearFar) {
 		this->light_near_far_range = nearFar;
 	}
 

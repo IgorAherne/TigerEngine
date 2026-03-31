@@ -393,6 +393,12 @@ void pointLight::pointLightPreDraw_UniformSetup(const renderer *curr_renderer,
 	float w_height = curr_renderer->get_window()->getHeight();
 	vec2 pixel_size = vec2(1 / w_width, 1 / w_height);
 	glUniform2fv(loc, 1, (float*)&pixel_size);
+
+	loc = glGetUniformLocation(currProg, "lightIntensity");
+	glUniform1f(loc, get_intensity());
+
+	loc = glGetUniformLocation(currProg, "lightColor");
+	glUniform3fv(loc, 1, (float*)&get_color());
 }
 
 
