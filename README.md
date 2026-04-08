@@ -5,7 +5,7 @@ Built as an MSc project at Newcastle University (2016) by **Igor Aherne**.
 
 All 3D assets in the demo scene were modelled by hand.
 
----
+<video src="trailer.mov" controls width="720"></video>
 
 ## Features
 
