@@ -90,13 +90,13 @@ bool myFirst_scene_init() {
 		new basic_navigator(x_mov, y_mov, z_mov,
 			vec2(5, 3))
 		);
-	firstCamera->getTransform()->setPosition(vec3(1.5, 8.5, 13.f));
+	firstCamera->getTransform()->setPosition(vec3(1.5, 8.5, 14.f));
 	//firstCamera->getTransform()->setPitchYawRoll(vec3(90, 0, 0));
 	camera *cam = new camera(vec2(0.2, 1000), renderers);
-	cam->setFov(90.f);
+	cam->setFov(75.f);
 	//TODO set fov was not working. (throws nullref exeption at frustum::reShape() )
 	firstCamera->attachComponent<camera>(cam);
-	firstCamera->getTransform()->setPitchYawRoll(vec3(-35, 0, 0));
+	firstCamera->getTransform()->setPitchYawRoll(vec3(-30, 0, 0));
 
 
 	key x_mov1[2]{ key::KEY_LEFT, key::KEY_RIGHT };
@@ -126,7 +126,7 @@ bool myFirst_scene_init() {
 	orange_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
 	orange_sphere->getMaterial()->set_Color(color(0.9, 0.6, 0.1, 1.0f));
 	orange_sphere->getMaterial()->set_emissive(10);
-	orange_sphere->getTransform()->setPosition(vec3(9, 5, -6.f));
+	orange_sphere->getTransform()->setPosition(vec3(11, 5, 4.f));
 	orange_sphere->getTransform()->setScale(vec3(3, 3, 3));
 	orange_sphere->attachComponent<basic_navigator>(
 					new basic_navigator(x_mov1, y_mov1, z_mov1, vec2(3, 0)));
