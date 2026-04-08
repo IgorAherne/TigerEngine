@@ -3,16 +3,16 @@
 A custom real-time rendering engine written in **C++ / OpenGL 4.3+**, featuring double-bounce indirect illumination via voxel cone tracing.  
 Built as an MSc project at Newcastle University (2016) by **Igor Aherne**.
 
-All 3D assets in the demo scene were modelled by hand.
+https://github.com/user-attachments/assets/2cae9384-99fb-4cff-a0b3-d0ec90afcb1c
 
-<video src="https://github.com/IgorAherne/TigerEngine/raw/main/trailer.mp4" controls width="720"></video>
+All 3D assets in the demo scene were modelled by hand.
 
 ## Features
 
-- **Double-bounce indirect illumination** — light bounces twice through the scene, producing realistic colour bleeding onto nearby surfaces.
-- **Cone-traced soft shadows** — shadow penumbrae emerge naturally from the voxel volume; no hard shadow edges.
+- **Double-bounce indirect illumination** — light bounces twice through the scene, gives realistic colour bleeding onto nearby surfaces.
+- **Cone-traced soft shadows** — shadow penumbrae emerge naturally from the voxel volume.
 - **Dynamic voxel reflections** — an additional sharp cone, oriented along the reflection vector, approximates specular reflections from the voxel data.
-- **Cone-traced ambient occlusion** — the same tracing mechanism darkens crevices and corners where less light arrives.
+- **Cone-traced ambient occlusion** — natural darkening of crevices and corners where less light arrives.
 - **Emissive surface lighting** — objects marked as emissive bypass shadow-mapping and act as area light sources whose glow propagates through the GI pipeline.
 - **Quadralinear filtering** — samples are interpolated across four dimensions (3D position + mip level), giving smooth transitions between voxel resolutions.
 
@@ -59,6 +59,22 @@ An 8th, narrower cone is traced along the reflection direction (derived from the
 
 ---
 
+## Controls
+
+| Keys | Action |
+|---|---|
+| **W / A / S / D** | Move camera forward / left / back / right |
+| **arrow keys** | move the orange sphere. Home/End moves it up and down |
+| **Q / E** | Move camera down / up |
+| **I / J / K / L / U / O** | Move point light forward / left / back / right / down / up |
+| **U / O** | Move point light down / up |
+| **Space** | Toggle between standard lighting and voxel GI mode |
+| **Hold 1 or 2** | Toggle between single and double light bounce |
+| **Hold 3 or 4** | downsampling of the VXGI screenspace resolution |
+| **Hold 5 or 6** | increase/reduce specularity |
+
+---
+
 ## Engine Architecture
 
 The engine follows a **component-based game-object** model:
@@ -102,18 +118,6 @@ input::flush_keys()
 
 ---
 
-## Controls
-
-| Keys | Action |
-|---|---|
-| **W / A / S / D** | Move camera forward / left / back / right |
-| **Q / E** | Move camera down / up |
-| **I / J / K / L** | Move point light forward / left / back / right |
-| **U / O** | Move point light down / up |
-| **Space** | Toggle between standard lighting and voxel GI mode |
-
----
-
 ## Dependencies
 
 - **OpenGL 4.3+** (compute shaders, image load/store, atomic counters)
@@ -127,9 +131,9 @@ input::flush_keys()
 
 The project was originally developed with Visual Studio 2015 on Windows. To build:
 
-1. Install GLEW and GLFW3 development libraries (headers + `.lib` / `.dll`).
+1. Install GLEW and GLFW3 development libraries (headers + `.lib` / `.dll`) - *already included by default*.
 2. Open the project in Visual Studio (or configure CMake to point at the source files).
-3. Make sure the include paths resolve `<GLEW/glew.h>` and `<GLFW/glfw3.h>`.
+3. Make sure the include paths resolve `<GLEW/glew.h>` and `<GLFW/glfw3.h>` - already done by default. 
 4. Build and run — the entry point is `main.cpp`.
 
 ---
