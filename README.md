@@ -3,6 +3,8 @@
 A custom real-time rendering engine written in **C++ / OpenGL 4.3+**, featuring double-bounce indirect illumination via voxel cone tracing.  
 Built as an MSc project at Newcastle University (2016) by **Igor Aherne**.
 
+Scientific publication, explaining the technique: [link](https://www.scitepress.org/Papers/2020/88745/88745.pdf)
+
 https://github.com/user-attachments/assets/2cae9384-99fb-4cff-a0b3-d0ec90afcb1c
 
 All 3D assets in the demo scene were modelled by hand.
