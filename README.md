@@ -1,4 +1,4 @@
-# Tiger Engine 0.1 — Voxel Cone Tracing Global Illumination
+# Tiger Engine 2016 — Realtime Global Illumination via Voxel Cone Tracing.
 
 A custom real-time rendering engine written in **C++ / OpenGL 4.3+**, featuring double-bounce indirect illumination via voxel cone tracing.  
 Built as an MSc project at Newcastle University (2016) by **Igor Aherne**.
