@@ -30,6 +30,18 @@ bool input::getKeyUp(key _key) {
 
 
 void input::updateInput(float dt){
+
+	static bool first_call = true;
+	if (first_call) {
+		first_call = false;
+		// seed both to the current real cursor position
+		auto& r = *renderer::rendererInstances.begin();
+		double cx, cy;
+		glfwGetCursorPos(r.second->m_window->glfw_window, &cx, &cy);
+		cursor_pos.x = cx;  cursor_pos.y = cy;
+		cursor_old_pos = cursor_pos;
+	}
+
 	//update old pos. Don't do it in callback, since it will only be called if there
 	//is a change in cursor position. This will mean that cursor_old_pos will never
 	//be able to catch up with the current_position, forcing cursor_delta() return

@@ -90,12 +90,13 @@ bool myFirst_scene_init() {
 		new basic_navigator(x_mov, y_mov, z_mov,
 			vec2(5, 3))
 		);
-	firstCamera->getTransform()->setPosition(vec3(0, 0, 0.f));
+	firstCamera->getTransform()->setPosition(vec3(1.5, 8.5, 13.f));
 	//firstCamera->getTransform()->setPitchYawRoll(vec3(90, 0, 0));
 	camera *cam = new camera(vec2(0.2, 1000), renderers);
 	cam->setFov(90.f);
 	//TODO set fov was not working. (throws nullref exeption at frustum::reShape() )
 	firstCamera->attachComponent<camera>(cam);
+	firstCamera->getTransform()->setPitchYawRoll(vec3(-35, 0, 0));
 
 
 	key x_mov1[2]{ key::KEY_LEFT, key::KEY_RIGHT };
@@ -132,28 +133,28 @@ bool myFirst_scene_init() {
 	//orange_sphere->attachComponent<basic_rotator>(
 	//				new basic_rotator(x_mov1, y_mov1, z_mov1, 42) );
 
-	gameObject *green_sphere = new gameObject("green_sphere");
-	green_sphere->attachComponent<mesh>(repositories::getMesh("offset_geosphere"));
-	green_sphere->getMaterial()->set_Color(color(0.2, 1, 0.2, 1.0f));
-	green_sphere->getMaterial()->set_emissive(20);
-	green_sphere->getTransform()->setPosition(vec3(6, 10, 11.f));
-	green_sphere->getTransform()->setScale(vec3(2, 2, 2));
-	green_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 30, 0), 0));
+	gameObject *white_sphere = new gameObject("white_sphere");
+	white_sphere->attachComponent<mesh>(repositories::getMesh("offset_geosphere"));
+	white_sphere->getMaterial()->set_Color(color(1, 0.9, 0.8, 1.0f));
+	white_sphere->getMaterial()->set_emissive(150);
+	white_sphere->getTransform()->setPosition(vec3(4, 6, 3.f));
+	white_sphere->getTransform()->setScale(vec3(1.6, 1.6, 1.6));
+	white_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 30, 0), 100));
 	
-	gameObject *orange_sphere2 = new gameObject("pink sphere");
-	orange_sphere2->attachComponent<mesh>(repositories::getMesh("geosphere"));
-	orange_sphere2->getMaterial()->set_Color(color(1, 0.1, 1, 1.0f));
-	orange_sphere2->getMaterial()->set_emissive(7);
-	orange_sphere2->getTransform()->setPosition(vec3(15.5, 8, 7.5f));
-	orange_sphere2->getTransform()->setScale(vec3(2, 2, 2));
+	gameObject *pink_sphere2 = new gameObject("pink sphere");
+	pink_sphere2->attachComponent<mesh>(repositories::getMesh("geosphere"));
+	pink_sphere2->getMaterial()->set_Color(color(1, 0.1, 1, 1.0f));
+	pink_sphere2->getMaterial()->set_emissive(7);
+	pink_sphere2->getTransform()->setPosition(vec3(15.5, 8, 7.5f));
+	pink_sphere2->getTransform()->setScale(vec3(2, 2, 2));
 	
-	gameObject *blue_emissive_sphere = new gameObject("blue emsssive sphere");
-	blue_emissive_sphere->attachComponent<mesh>(repositories::getMesh("offset_geosphere"));
-	blue_emissive_sphere->getMaterial()->set_Color(color(0.1, 0.5, 0.9, 1.0f));
-	blue_emissive_sphere->getMaterial()->set_emissive(30);
-	blue_emissive_sphere->getTransform()->setPosition(vec3(5, 4, 3));
-	blue_emissive_sphere->getTransform()->setScale(vec3(1.5, 1.5, 1.5));
-	blue_emissive_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 50, 0), 0));
+	gameObject *purple_emissive_sphere = new gameObject("purple emsssive sphere");
+	purple_emissive_sphere->attachComponent<mesh>(repositories::getMesh("offset_geosphere"));
+	purple_emissive_sphere->getMaterial()->set_Color(color(0.7, 0.5, 0.9, 1.0f));
+	purple_emissive_sphere->getMaterial()->set_emissive(30);
+	purple_emissive_sphere->getTransform()->setPosition(vec3(5, 4, 3));
+	purple_emissive_sphere->getTransform()->setScale(vec3(1.5, 1.5, 1.5));
+	purple_emissive_sphere->attachComponent<basic_spinner>(new basic_spinner(vec3(0, 50, 0), 0));
 	
 	//gameObject *blue_sphere = new gameObject("blue_sphere");
 	//blue_sphere->attachComponent<mesh>(repositories::getMesh("geosphere"));
@@ -203,7 +204,7 @@ bool myFirst_scene_init() {
 	my_light->attachComponent<pointLight>(new pointLight(1024, vec2(1, 40)));
 	my_light->attachComponent<basic_navigator>(
 						new basic_navigator(x_mov2, y_mov2, z_mov2, vec2(3, 0)));
-	my_light->getTransform()->setPosition(vec3(3, 10, 7));
+	my_light->getTransform()->setPosition(vec3(3, 6, 0));
 	my_light->getComponent<pointLight>()->set_intensity(0.001);
 	return true;
 }
