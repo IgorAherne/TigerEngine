@@ -21,6 +21,23 @@ All 3D assets in the demo scene were modelled by hand.
 
 ---
 
+## Keyboard Controls
+
+| Keys | Action |
+|---|---|
+| **W / A / S / D** | Move camera forward / left / back / right |
+| **arrow keys** | move the orange sphere. Home/End moves it up and down |
+| **Q / E** | Move camera down / up |
+| **I / J / K / L / U / O** | Move point light forward / left / back / right / down / up |
+| **U / O** | Move point light down / up |
+| **Space** | Toggle between standard lighting and voxel GI mode |
+| **Hold 1 or 2** | Toggle between single and double light bounce |
+| **Hold 3 or 4** | downsampling of the VXGI screenspace resolution |
+| **Hold 5 or 6** | increase/reduce specularity |
+
+---
+
+
 ## How It Works
 
 The GI pipeline runs every frame in the following stages:
@@ -59,22 +76,6 @@ For each visible fragment the world position and normal are recovered from the G
 ### 7 — Reflections
 
 An 8th, narrower cone is traced along the reflection direction (derived from the fragment normal and view vector), providing approximate specular reflections from the voxel data.
-
----
-
-## Controls
-
-| Keys | Action |
-|---|---|
-| **W / A / S / D** | Move camera forward / left / back / right |
-| **arrow keys** | move the orange sphere. Home/End moves it up and down |
-| **Q / E** | Move camera down / up |
-| **I / J / K / L / U / O** | Move point light forward / left / back / right / down / up |
-| **U / O** | Move point light down / up |
-| **Space** | Toggle between standard lighting and voxel GI mode |
-| **Hold 1 or 2** | Toggle between single and double light bounce |
-| **Hold 3 or 4** | downsampling of the VXGI screenspace resolution |
-| **Hold 5 or 6** | increase/reduce specularity |
 
 ---
 
