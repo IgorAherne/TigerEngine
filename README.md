@@ -4,7 +4,7 @@ A custom real-time rendering engine written in **C++ / OpenGL 4.3+**, featuring 
 Built as an MSc project at Newcastle University (2016) by **Igor Aherne**.
 
 Youtube: [2016 link](https://www.youtube.com/watch?v=TB3ds_vcoKA)
-Scientific publication, explaining the technique: [2020 Igor Aherne et al.](https://www.scitepress.org/Papers/2020/88745/88745.pdf)
+Scientific publication, explaining the technique: [2020 Igor Aherne et al.](https://www.scitepress.org/Papers/2020/88745/88745.pdf) <br>
 It is inspired by Nvidia's VXGI global illumination technology.
 
 https://github.com/user-attachments/assets/2cae9384-99fb-4cff-a0b3-d0ec90afcb1c
